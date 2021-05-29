@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @FeignClient("DRIVER-SERVICE")
-@RequestMapping("/api/drivers")
+@RequestMapping("/drivers")
 public interface DriverClient {
 
     @GetMapping("/{driverId}")

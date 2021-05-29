@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient("CUSTOMER-SERVICE")
-@RequestMapping("/api/customers")
+@RequestMapping("/customers")
 public interface CustomerClient {
     
     @GetMapping("/{cargoId}")

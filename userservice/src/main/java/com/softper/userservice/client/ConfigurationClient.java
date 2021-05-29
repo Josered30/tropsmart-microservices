@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @FeignClient("config-service")
-@RequestMapping("api/configservice/configurations")
+@RequestMapping("/configservice/configurations")
 public interface ConfigurationClient {
     
     @PostMapping("/")
