@@ -36,3 +36,9 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/userservice/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"            
