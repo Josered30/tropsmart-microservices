@@ -6,6 +6,10 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/tropsmart/TS_ms_config-data.git
+          uri: https://github.com/Josered30/tropsmart-microservices.git
           searchPaths: config-data
-          default-label: "dev"
+          default-label: "develop"
+  security:
+    user:
+      name: root
+      password: s3cr3t

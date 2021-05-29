@@ -19,7 +19,7 @@ spring:
         - id: cargoservice
           uri: lb://cargoservice
           predicates:
-              - Path=/cargoservice/**
+            - Path=/cargoservice/**
         - id: configservice
           uri: lb://configservice
           predicates:
