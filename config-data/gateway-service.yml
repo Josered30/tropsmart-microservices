@@ -17,22 +17,22 @@ spring:
           enabled: true
       routes:
         - id: cargo-service
-          uri: lb://cargoservice
+          uri: lb://cargo-service
           predicates:
             - Path=/cargoservice/**
         - id: config-service
-          uri: lb://configservice
+          uri: lb://config-service
           predicates:
             - Path=/configservice/**
         - id: customer-service
-          uri: lb://customerservice
+          uri: lb://customer-service
           predicates:
             - Path=/customerservice/**
         - id: driver-service
-          uri: lb://driverservice
+          uri: lb://driver-service
           predicates:
             - Path=/driverservice/**
         - id: user-service
-          uri: lb://userservice
+          uri: lb://user-service
           predicates:
             - Path=/userservice/**
