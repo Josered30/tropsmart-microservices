@@ -1,31 +1,18 @@
-server:
-    port: 8092
-
 spring:
     application:
-        name: userservice
+        name: user-service
     cloud:
         config:
             uri: http://localhost:8081
             username: root
             password: s3cr3t
     boot:
-        admin:
-            client:
-                url: http://localhost:8086
-
+      admin:
+        client:
+          url: http://localhost:8086
 
 env:
   jwtSecret: fdsfdfokpokposdwkfposksd
   jwtExpiration: 200000
   refreshTokenExpiration: 30000
-#server.port=${PORT:8082}
-#spring.cloud.config.server.git.uri=https://github.com/tropsmart/TS_mi_config.git
-
-#spring.security.user.name: root
-#spring.security.user.password: s3cr3t
-#spring.cloud.config.server.native.searchLocations=file://${user.home}/MicroService/centralProperties/
-
-#SPRING_PROFILES_ACTIVE=native
-#spring.config.import=optional:configserver:http://localhost:8888/
 

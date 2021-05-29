@@ -16,23 +16,23 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: cargoservice
+        - id: cargo-service
           uri: lb://cargoservice
           predicates:
             - Path=/cargoservice/**
-        - id: configservice
+        - id: config-service
           uri: lb://configservice
           predicates:
             - Path=/configservice/**
-        - id: customerservice
+        - id: customer-service
           uri: lb://customerservice
           predicates:
             - Path=/customerservice/**
-        - id: driverservice
+        - id: driver-service
           uri: lb://driverservice
           predicates:
             - Path=/driverservice/**
-        - id: userservice
+        - id: user-service
           uri: lb://userservice
           predicates:
             - Path=/userservice/**
