@@ -19,23 +19,23 @@ spring:
         - id: cargo-service
           uri: lb://cargo-service
           predicates:
-            - Path=/cargoservice/**
+            - Path=api/cargoservice/**
         - id: config-service
           uri: lb://config-service
           predicates:
-            - Path=/configservice/**
+            - Path=api/configservice/**
         - id: customer-service
           uri: lb://customer-service
           predicates:
-            - Path=/customerservice/**
+            - Path=api/customerservice/**
         - id: driver-service
           uri: lb://driver-service
           predicates:
-            - Path=/driverservice/**
+            - Path=api/driverservice/**
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/userservice/**
+            - Path=api/userservice/**
 
 management:
   endpoints:

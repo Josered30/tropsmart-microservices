@@ -1,9 +1,6 @@
 package com.softper.userservice.controllers;
 
-//import com.softper.userservice.resources.comunications.CustomerResponse;
-//import com.softper.userservice.servicesImp.CustomerService;
-//import com.softper.userservice.resources.comunications.DriverResponse;
-//import com.softper.userservice.servicesImp.DriverService;
+
 import com.softper.userservice.resources.comunications.*;
 import com.softper.userservice.servicesImp.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/userservice/users")
+@RequestMapping("api/userservice/users")
 public class UsersController {
     @Autowired
     private UserService userService;

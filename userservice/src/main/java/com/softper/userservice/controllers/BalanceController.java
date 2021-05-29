@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/userservice/balances")
+@RequestMapping("api/userservice/balances")
 public class BalanceController {
 
     @Autowired

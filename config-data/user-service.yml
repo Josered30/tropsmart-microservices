@@ -23,7 +23,7 @@ spring:
   security:
     basic:
       enabled: false
-      
+         
 eureka:
   client:
     serviceUrl:

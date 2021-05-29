@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/configservice/payment-methods")
+@RequestMapping("api/configservice/payment-methods")
 public class PaymentMethodController {
     @Autowired
     private PaymentMethodService paymentMethodService;

@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/userservice/plans")
+@RequestMapping("api/userservice/plans")
 public class PlansController {
 
     @Autowired
