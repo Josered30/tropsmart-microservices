@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.5</version>
+		<version>2.4.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.softper</groupId>
@@ -15,7 +15,7 @@
 	<description>Cargo micro service</description>
 	<properties>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>2020.0.0</spring-cloud.version>
+		<spring-cloud.version>2020.0.2</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,30 +64,17 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-			<version>2.2.8.RELEASE</version>
 		</dependency>
-		<dependency> 
-			<groupId>mysql</groupId>  
-			<artifactId>mysql-connector-java</artifactId>  
-			<version>8.0.20</version> 
-		</dependency>
+
+
 		<dependency> 
 			<groupId>javax.servlet</groupId>  
 			<artifactId>javax.servlet-api</artifactId>  
 			<version>4.0.1</version>  
 			<scope>provided</scope> 
-		</dependency>  
-		<dependency> 
-			<groupId>org.springframework.boot</groupId>  
-			<artifactId>spring-boot-starter-test</artifactId>  
-			<scope>test</scope>  
-			<!--<exclusions>
-					  <exclusion>
-						  <groupId>org.junit.vintage</groupId>
-						  <artifactId>junit-vintage-engine</artifactId>
-					  </exclusion>
-				  </exclusions>--> 
-		</dependency>  
+		</dependency>
+
+
 		<dependency> 
 			<groupId>org.modelmapper.extensions</groupId>  
 			<artifactId>modelmapper-spring</artifactId>  
@@ -142,6 +129,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
 			<version>1.4.7.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+			<version>3.0.0-M5</version>
 		</dependency>
 
 	</dependencies>
