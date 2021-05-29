@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("configservice/configurations")
+@RequestMapping("/configservice/configurations")
 public class ConfigurationsController {
 
     @Autowired
