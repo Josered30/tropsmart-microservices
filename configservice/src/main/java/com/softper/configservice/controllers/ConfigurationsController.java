@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/configservice/configurations")
+@RequestMapping("configservice/configurations")
 public class ConfigurationsController {
 
     @Autowired
@@ -79,10 +79,9 @@ public class ConfigurationsController {
 
     //======FeignClient Methods========================
     @PostMapping("/")
-    public ResponseEntity<ConfigBoundResponse> generateConfiguration(@PathVariable(value = "userId")int userId)
+    public ResponseEntity<ConfigBoundResponse> generateConfiguration()
     {
         ConfigBoundResponse result = configurationService.generateConfiguration();
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

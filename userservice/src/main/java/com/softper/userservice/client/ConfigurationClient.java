@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 
 @FeignClient("config-service")
-@RequestMapping("api/configurations")
+@RequestMapping("api/configservice/configurations")
 public interface ConfigurationClient {
     
     @PostMapping("/")
-    public ResponseEntity<ConfigBoundResponse> generateConfiguration(@PathVariable(value = "userId")int userId);
+    public ResponseEntity<ConfigBoundResponse> generateConfiguration();
     
     
 }

@@ -122,7 +122,7 @@ public class AuthService implements IAuthService {
                 //newConfiguration.setPaymentCurrency("Soles");
     
                 //newConfiguration = configurationRepository.save(newConfiguration);
-                ConfigBoundResponse configurationResponse = configurationClient.generateConfiguration(8).getBody();
+                ConfigBoundResponse configurationResponse = configurationClient.generateConfiguration().getBody();
 
 
                 Balance newBalance = new Balance();
