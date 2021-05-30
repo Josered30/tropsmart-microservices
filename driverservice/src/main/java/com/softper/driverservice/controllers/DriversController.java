@@ -50,7 +50,9 @@ public class DriversController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    //DriverClientFeign
+
+    @PostMapping("/{personId}")
     public ResponseEntity<Driver> generateNewDriver(@PathVariable(value = "personId")int personId)
     {
         Driver result = driverService.generateNewDriver(personId);
