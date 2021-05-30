@@ -102,7 +102,6 @@ public class AuthService implements IAuthService {
         try
         {
             UserBoundResponse response = new UserBoundResponse();
-            logger.info("signUp");
             Optional<User> result = userRepository.findByEmail(signUp.getEmail());
             if(result.isPresent()) {
                 return new UserBoundResponse("registerComplete", "El correo : "+result.get().getEmail()+" ya se encuentra registrado",0);
@@ -115,6 +114,8 @@ public class AuthService implements IAuthService {
                 newPerson.setPhone(signUp.getPhone());
                 newPerson.setPersonType(signUp.getDiscriminator());
                 newPerson = personRepository.save(newPerson);
+
+                
 
 
                 //Configuration newConfiguration = new Configuration();
@@ -135,6 +136,7 @@ public class AuthService implements IAuthService {
                 User user = new User();
                 user.setEmail(signUp.getEmail());
                 user.setPerson(newPerson);
+                
     
                 //user.setPassword(encoder.encode((signUp.getPassword())));
                 user.setPassword(signUp.getPassword());

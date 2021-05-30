@@ -11,14 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient("CUSTOMER-SERVICE")
-@RequestMapping("/customers")
+@FeignClient("customerservice")
+@RequestMapping("/customerservice/customer")
 public interface CustomerClient {
     
     @GetMapping("/{cargoId}")
     public ResponseEntity<?> findCustomersById(@PathVariable(value = "cargoId") int cargoId);
 
-    @PostMapping("/")
+    @PostMapping("/{personId}")
     public ResponseEntity<Customer> generateNewCustomer(@PathVariable(value = "personId")int personId);
 
 }

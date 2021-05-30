@@ -64,7 +64,7 @@ public class CustomersController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping("/{personId}")
     public ResponseEntity<Customer> generateNewCustomer(@PathVariable(value = "personId")int personId)
     {
         Customer result = customerService.generateNewCustomer(personId);

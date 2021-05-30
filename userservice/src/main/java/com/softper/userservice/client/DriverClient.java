@@ -10,13 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@FeignClient("DRIVER-SERVICE")
-@RequestMapping("/drivers")
+@FeignClient("driver-service")
+@RequestMapping("/driverservice/driver")
 public interface DriverClient {
 
     @GetMapping("/{driverId}")
     public ResponseEntity<?> findDriverById(@PathVariable(value = "driverId") int driverId);
 
-    @PostMapping("/")
+    @PostMapping("/{personId}")
     public ResponseEntity<Driver> generateNewDriver(@PathVariable(value = "personId")int personId);
 }
