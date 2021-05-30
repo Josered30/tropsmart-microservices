@@ -29,28 +29,31 @@ public class BalanceService implements IBalanceService {
 
     @Override
     public UserBoundResponse findBalanceById(int balanceId) {
-        /*
+        
         try {
+            UserBoundResponse response;
             User getUser = userRepository.findUserByBalanceId(balanceId)
                     .orElseThrow(()-> new ResourceNotFoundException("user","id",balanceId));
 
             Balance getBalance = getUser.getBalance();
 
-            return new BalanceResponse(new BalanceOutput(getUser.getPerson().getFirstName()+" "+getUser.getPerson().getLastName(),getUser.getEmail(),getUser.getPerson().getCustomer().getCredits(),getBalance.getAddedMoney(),getBalance.getSpentMoney()));
+            //return new BalanceResponse(new BalanceOutput(getUser.getPerson().getFirstName()+" "+getUser.getPerson().getLastName(),getUser.getEmail(),getUser.getPerson().getCustomer().getCredits(),getBalance.getAddedMoney(),getBalance.getSpentMoney()));
+            response = new UserBoundResponse("findBalanceById","success",1);
+            response.setBalanceOutput(new BalanceOutput(getUser.getPerson().getFirstName()+" "+getUser.getPerson().getLastName(),getUser.getEmail(),getUser.getPerson().getCustomer().getCredits(),getBalance.getAddedMoney(),getBalance.getSpentMoney()));
+            return response;
         }
         catch(Exception e)
         {
-            return new BalanceResponse("An error ocurred while getting balance: "+e.getMessage());
+            return new UserBoundResponse("findBalanceById","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
-
+        
     }
 
     @Override
     public UserBoundResponse findAllBalances() {
-        /*try
+        try
         {
+            UserBoundResponse response;
             List<Balance> balanceList = balanceRepository.findAll();
             List<BalanceOutput> balanceOutputList = new ArrayList<>();
             for (Balance b:balanceList) {
@@ -58,37 +61,36 @@ public class BalanceService implements IBalanceService {
                         .orElseThrow(()-> new ResourceNotFoundException("user","id",b.getId()));
                 balanceOutputList.add(new BalanceOutput(getUser.getPerson().getFirstName()+" "+getUser.getPerson().getLastName(),getUser.getEmail(),getUser.getPerson().getCustomer().getCredits(),b.getAddedMoney(),b.getSpentMoney()));
             }
-            return new BalanceResponse(balanceOutputList);
+
+            response = new UserBoundResponse("findAllBalances","success",1);
+            response.setBalanceOutputs(balanceOutputList);
+            return response;
+            //return new BalanceResponse(balanceOutputList);
         }
         catch (Exception e)
         {
-            return new BalanceResponse("An error ocurred while getting balance list: "+e.getMessage());
+            return new UserBoundResponse("findAllBalances","An error ocurred : "+e.getMessage(),-2);
+            //return new BalanceResponse("An error ocurred while getting balance list: "+e.getMessage());
         }
-        */
-        return null;
-
     }
 
     @Override
     public Balance save(Balance balance) throws Exception {
-        //return balanceRepository.save(balance);
-        return null;
+        return balanceRepository.save(balance);
     }
 
     @Override
     public void deleteById(Integer id) throws Exception {
-        //balanceRepository.deleteById(id);
+        balanceRepository.deleteById(id);
     }
 
     @Override
     public Optional<Balance> findById(Integer id) throws Exception {
-        //return balanceRepository.findById(id);
-        return null;
+        return balanceRepository.findById(id);
     }
 
     @Override
     public List<Balance> findAll() throws Exception {
-        //return balanceRepository.findAll();
-        return null;
+        return balanceRepository.findAll();
     }
 }

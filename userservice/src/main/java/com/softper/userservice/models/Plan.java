@@ -33,8 +33,14 @@ public class Plan implements Serializable {
     //@OneToOne
     //@JoinColumn(name = "price_id")
     //private Price price;
-    @Column(name = "price_id")
-    private Integer priceId;
+    //@Column(name = "price_id")
+    //private Integer priceId;
+
+    @Column(name="total_price",nullable = false, updatable = false)
+    private Double totalPrice;
+
+    @Column(name="tax", nullable = false, updatable = false)
+    private Double tax;
 
     @OneToMany(mappedBy = "plan")
     private List<Subscription> subscriptionList = new ArrayList<>();

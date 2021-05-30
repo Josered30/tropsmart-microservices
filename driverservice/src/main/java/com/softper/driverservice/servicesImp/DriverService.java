@@ -128,9 +128,29 @@ public class DriverService implements IDriverService {
             return null;
             //return new DriverBoundResponse("generateNewDriver","Hugo un error en el metodo : "+e.getMessage(),-2);
         }
-        
-
     }
+
+    @Override
+    public Driver findDriverByPersonId(int personId){
+        try{
+            return driverRepository.findDriverByPersonId(personId);
+        } catch(Exception e)
+        {
+            return null;
+        }
+    }
+
+    @Override
+    public Driver getDriverById(int driverId)
+    {   
+        try{
+            return driverRepository.findById(driverId).get();
+        } catch(Exception e)
+        {
+            return null;
+        }
+    }
+
 
     public DriverOutput toDriverOutput(Driver getDriver) {
         DriverOutput newDriverOutput = new DriverOutput();

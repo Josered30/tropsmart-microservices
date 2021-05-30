@@ -1,5 +1,7 @@
 package com.softper.userservice.servicesImp;
 
+import com.softper.userservice.client.CustomerClient;
+import com.softper.userservice.client.DriverClient;
 import com.softper.userservice.models.Person;
 import com.softper.userservice.models.User;
 import com.softper.userservice.repositories.IPersonRepository;
@@ -19,8 +21,15 @@ public class PersonService implements IPersonService {
 
     @Autowired
     IPersonRepository personRepository;
+    
     @Autowired
     IUserRepository userRepository;
+    
+    @Autowired
+    private CustomerClient customerClient;
+
+    @Autowired
+    private DriverClient driverClient;
 
     @Override
     public Person save(Person person) {
@@ -45,9 +54,10 @@ public class PersonService implements IPersonService {
 
     @Override
     public UserBoundResponse findPeopleById(int id) {
-        /*
+        
         try
         {
+            UserBoundResponse response;
             User getUser = userRepository.findUserByPersonId(id).get();
             Person getPerson = personRepository.findById(id).get();
 
@@ -59,23 +69,22 @@ public class PersonService implements IPersonService {
                 newPersonOutput.setUserType("Customer");
             if(getPerson.getPersonType()==2)
                 newPersonOutput.setUserType("Driver");
-            return new PersonResponse(newPersonOutput);
+            response = new UserBoundResponse("findPeopleById","success",1);
+            response.setPersonOutput(newPersonOutput);
+            return response;
         }
         catch (Exception e)
         {
-            return new PersonResponse("An error ocurred while getting the person: "+e.getMessage());
-
+            return new UserBoundResponse("findPeopleById","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
-
     }
 
     @Override
     public UserBoundResponse findAllPersons() {
-        /*
+        
         try
         {
+            UserBoundResponse response;
             List<Person> personList = personRepository.findAll();
             List<PersonOutput> personOutputList = new ArrayList<>();
             for (Person p:personList) {
@@ -90,14 +99,15 @@ public class PersonService implements IPersonService {
                     newPersonOutput.setUserType("Driver");
                 personOutputList.add(newPersonOutput);
             }
-            return new PersonResponse(personOutputList);
+
+            response = new UserBoundResponse("findAllPersons","success",1);
+            response.setPersonOutputs(personOutputList);
+            return response;
         }
         catch (Exception e)
         {
-            return new PersonResponse("An error ocurred while getting the person list: "+e.getMessage());
+            return new UserBoundResponse("findAllPersons", "An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
-
+        
     }
 }

@@ -33,10 +33,10 @@ public class CustomersController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/{cargoId}")
-    public ResponseEntity<CustomerBoundResponse> findCustomersById(@PathVariable(value = "cargoId") int cargoId)
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerBoundResponse> findCustomersById(@PathVariable(value = "customerId") int customerId)
     {
-        CustomerBoundResponse result = customerService.findCustomerById(cargoId);
+        CustomerBoundResponse result = customerService.findCustomerById(customerId);
 
         //if(!result.success)
         //    return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
@@ -64,11 +64,30 @@ public class CustomersController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    //Customer Feign Client======================================================================
+
+
+    @GetMapping("/by-id/{customerId}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "customerId") int customerId)
+    {
+        Customer result = customerService.getCustomerById(customerId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
     @PostMapping("/{personId}")
     public ResponseEntity<Customer> generateNewCustomer(@PathVariable(value = "personId")int personId)
     {
         Customer result = customerService.generateNewCustomer(personId);
 
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/by-personId/{personId}")
+    public ResponseEntity<Customer> getCustomersByPersonId(@PathVariable(value = "personId") int personId)
+    {
+        Customer result = customerService.findCustomerByPersonId(personId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

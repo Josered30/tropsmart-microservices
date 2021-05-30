@@ -50,13 +50,29 @@ public class DriversController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    //DriverClientFeign
+    //Driver Feign Client =======================================================
+
+    @GetMapping("/by-id/{driverId}")
+    public ResponseEntity<?> getDriverById(@PathVariable(value = "driverId") int driverId)
+    {
+        Driver result = driverService.getDriverById(driverId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @PostMapping("/{personId}")
     public ResponseEntity<Driver> generateNewDriver(@PathVariable(value = "personId")int personId)
     {
         Driver result = driverService.generateNewDriver(personId);
 
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/by-personId/{personId}")
+    public ResponseEntity<Driver> getDriverByPersonId(@PathVariable(value = "personId") int personId)
+    {
+        Driver result = driverService.findDriverByPersonId(personId);
+        
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

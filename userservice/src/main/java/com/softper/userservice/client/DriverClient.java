@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/driverservice/drivers")
 public interface DriverClient {
 
-    @GetMapping("/{driverId}")
-    public ResponseEntity<?> findDriverById(@PathVariable(value = "driverId") int driverId);
+    @GetMapping("/by-id/{driverId}")
+    public ResponseEntity<Driver> getDriverById(@PathVariable(value = "driverId") int driverId);
 
     @PostMapping("/{personId}")
     public ResponseEntity<Driver> generateNewDriver(@PathVariable(value = "personId")int personId);
+
+    @GetMapping("/by-personId/{personId}")
+    public ResponseEntity<Driver> getDriverByPersonId(@PathVariable(value = "personId") int personId);
+  
 }

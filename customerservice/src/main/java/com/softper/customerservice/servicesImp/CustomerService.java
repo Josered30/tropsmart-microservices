@@ -139,6 +139,29 @@ public class CustomerService implements ICustomerService {
         }
     }
 
+    @Override
+    public Customer findCustomerByPersonId(int personId)
+    {
+        try{
+            return customerRepository.findCustomerByPersonId(personId);
+        }catch(Exception e)
+        {
+            return null;
+        }
+    }
+
+    @Override
+    public Customer getCustomerById(int customerId)
+    {
+        try{
+            return customerRepository.findById(customerId).get();
+        }catch(Exception e)
+        {
+            return null;
+        }
+    }
+
+
     public CustomerOutput toCustomerOutput(Customer getCustomer) {
         CustomerOutput customerOutput = new CustomerOutput();
         customerOutput.setCredits(getCustomer.getCredits());
@@ -146,5 +169,7 @@ public class CustomerService implements ICustomerService {
 
         return customerOutput;
     }
+
+
 
 }

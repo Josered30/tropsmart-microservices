@@ -1,5 +1,7 @@
 package com.softper.userservice.servicesImp;
 
+import com.softper.userservice.client.CustomerClient;
+import com.softper.userservice.client.DriverClient;
 //import com.softper.userservice.resources.comunications.CustomerResponse;
 //import com.softper.userservice.resources.outputs.CustomerOutput;
 //import com.softper.userservice.resources.comunications.DriverResponse;
@@ -32,12 +34,19 @@ public class UserService implements IUserService {
     @Autowired
     private IBlockRepository blockRepository;
 
+    @Autowired
+    private CustomerClient customerClient;
 
+    @Autowired
+    private DriverClient driverClient;
+
+    
     @Override
     public UserBoundResponse setFavourited(int userId, int favouriteId){
-        /*
+        
         try
         {
+            UserBoundResponse response;
             User getUser = userRepository.findById(userId)
                     .orElseThrow(()->new ResourceNotFoundException("id","User",userId));
 
@@ -45,29 +54,31 @@ public class UserService implements IUserService {
                     .orElseThrow(()->new ResourceNotFoundException("id","User",favouriteId));
 
             if(getUser.getPerson().getPersonType()==2 || getUserFavourite.getPerson().getPersonType()==1)
-                return new FavoriteResponse("Only customers can add driver as favourite");
-
+            {
+                return new UserBoundResponse("setFavourited","Only customers can add driver as favourite",0);
+            }
             Favorite newFavourite = new Favorite();
             newFavourite.setUser(getUser);
             newFavourite.setFavorited(getUserFavourite);
             newFavourite.setCreatedAt(new Date());
             newFavourite = favoriteRepository.save(newFavourite);
 
-            return new FavoriteResponse(toFavoriteOutput(newFavourite));
+            response = new UserBoundResponse("setFavourited","success",1);
+            response.setFavoriteOutput(toFavoriteOutput(newFavourite));
+            return response;
         }
         catch (Exception e)
         {
-            return new FavoriteResponse("An error ocurred while saving the favourite: : "+e.getMessage());
+            return new UserBoundResponse("setFavourited","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse setBlocked(int userId, int blockedId) {
-        /*
+        
         try
         {
+            UserBoundResponse response;
             User getUser = userRepository.findById(userId)
                     .orElseThrow(()->new ResourceNotFoundException("id","User",userId));
 
@@ -80,60 +91,63 @@ public class UserService implements IUserService {
             newBlock.setCreatedAt(new Date());
 
             newBlock = blockRepository.save(newBlock);
-            return new BlockedResponse(toBlockedOutput(newBlock));
+
+            response = new UserBoundResponse("setBlocked","success",1);
+            response.setBlockedOutput(toBlockedOutput(newBlock));
+            return response;
         }
         catch (Exception e)
         {
-            return new BlockedResponse("An error ocurred while saving the blocked: : "+e.getMessage());
-        }
-        */
-        return null;
+            return new UserBoundResponse("setBlocked","An error ocurred : "+e.getMessage(),-2);
+        }        
     }
 
     @Override
     public UserBoundResponse findAllUsers() {
-        /*
+        
         try
         {
+            UserBoundResponse response;
             List<User> userList = userRepository.findAll();
             List<UserOutput> userOutputList = new ArrayList<>();
             for (User u:userList) {
                 userOutputList.add(toUserOutput(u));
             }
-            return new UserResponse(userOutputList);
+            response = new UserBoundResponse("findAllUsers","success",1);
+            response.setUserOutputs(userOutputList);
+            return response;
         }
         catch (Exception e)
         {
-            return new UserResponse("An error ocurred while getting the user list : "+e.getMessage());
-        }
-        */
-        return null;
+            return new UserBoundResponse("findAllUsers","An error ocurred : "+e.getMessage(),-2);
+        }        
     }
 
 
     @Override
     public UserBoundResponse findFavoritesByUserId(int userId) {
-        /*
+        
         try
         {
+            UserBoundResponse response;
             List<Favorite> favoriteList = favoriteRepository.findFavouritesByUserId(userId);
             List<FavoriteOutput> favouriteOutputList = new ArrayList<>();
             for (Favorite f:favoriteList) {
                 favouriteOutputList.add(toFavoriteOutput(f));
             }
-            return new FavoriteResponse(favouriteOutputList);
+            response = new UserBoundResponse("findFavoritesByUserId","success",1);
+            response.setFavoriteOutputs(favouriteOutputList); 
+            return response;
         }
         catch (Exception e)
         {
-            return new FavoriteResponse("An error ocurred while getting the favourite list : "+e.getMessage());
+            return new UserBoundResponse("findFavoritesByUserId","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse findBlockedsByUserId(int userId) {
-        /*
+        
         try
         {
             List<Block> blockList = blockRepository.findBlockedsByUserId(userId);
@@ -141,19 +155,19 @@ public class UserService implements IUserService {
             for (Block b:blockList) {
                 blockedOutputList.add(toBlockedOutput(b));
             }
-            return new BlockedResponse(blockedOutputList);
+            UserBoundResponse response = new UserBoundResponse("findBlockedsByUserId","success",1);
+            response.setBlockedOutputs(blockedOutputList); 
+            return response;
         }
         catch (Exception e)
         {
-            return new BlockedResponse("An error ocurred while getting the blocked list : "+e.getMessage());
+            return new UserBoundResponse("findBlockedsByUserId","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse findAllFavourites() {
-        /*
+        
         try
         {
             List<Favorite> favoriteList = favoriteRepository.findAll();
@@ -161,20 +175,20 @@ public class UserService implements IUserService {
             for (Favorite f:favoriteList) {
                 favoriteOutputList.add(toFavoriteOutput(f));
             }
-            return new FavoriteResponse(favoriteOutputList);
+            UserBoundResponse response = new UserBoundResponse("findAllFavourites","success",1);
+            response.setFavoriteOutputs(favoriteOutputList); 
+            return response;
         }
         catch (Exception e)
         {
-            return new FavoriteResponse("An error ocurred while getting the favourite list : "+e.getMessage());
+            return new UserBoundResponse("findAllFavourites","An error ocurred : "+e.getMessage(),-2);
 
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse findAllBlockeds() {
-        /*
+        
         try
         {
             List<Block> blockList = blockRepository.findAll();
@@ -182,51 +196,51 @@ public class UserService implements IUserService {
             for (Block b:blockList) {
                 blockedOutputList.add(toBlockedOutput(b));
             }
-            return new BlockedResponse(blockedOutputList);
+            UserBoundResponse response = new UserBoundResponse("findAllBlockeds","success",1);
+            response.setBlockedOutputs(blockedOutputList); 
+            return response;
         }
         catch (Exception e)
         {
-            return new BlockedResponse("An error ocurred while getting the blocked list : "+e.getMessage());
+            return new UserBoundResponse("findAllBlockeds","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse findFavoriteByUserIdAndFavoriteId(int userId, int favouriteId) {
-        /*
+        
         try
         {
             Favorite getFavourite = favoriteRepository.findFavouriteByUserAndFavouriteId(userId, favouriteId);
-            return new FavoriteResponse(toFavoriteOutput(getFavourite));
+            UserBoundResponse response = new UserBoundResponse("findFavoriteByUserIdAndFavoriteId","success",1);
+            response.setFavoriteOutput(toFavoriteOutput(getFavourite)); 
+            return response;
         }
         catch (Exception e)
         {
-            return new FavoriteResponse("An error ocurred while getting the favourite relation : "+e.getMessage());
+            return new UserBoundResponse("findFavoriteByUserIdAndFavoriteId","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse findBlockByUserIdAndBlockedId(int userId, int blockedId) {
-        /*
+
         try
         {
             Block getBlock = blockRepository.findBlockByUserAndBlockedId(userId, blockedId);
-            return new BlockedResponse(toBlockedOutput(getBlock));
+            UserBoundResponse response = new UserBoundResponse("findBlockByUserIdAndBlockedId","success",1);
+            response.setBlockedOutput(toBlockedOutput(getBlock)); 
+            return response;
         }
         catch (Exception e)
         {
-            return new BlockedResponse("An error ocurred while getting the blocked relation : "+e.getMessage());
+            return new UserBoundResponse("findBlockByUserIdAndBlockedId","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse findAllUsersByType(int userType) {
-        /*
+        
         try{
             List<User> userList = userRepository.findAll();
             List<UserOutput> userOutputList = new ArrayList<>();
@@ -236,105 +250,107 @@ public class UserService implements IUserService {
                 }
 
             }
-            return new UserResponse(userOutputList);
+            UserBoundResponse response = new UserBoundResponse("findAllUsersByType","success",1);
+            response.setUserOutputs(userOutputList);
+            return response;
         }
         catch (Exception e)
         {
-            return new UserResponse("An error ocurred while getting the user : "+e.getMessage());
+            return new UserBoundResponse("findAllUsersByType","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
 
     @Override
     public UserBoundResponse deleteFavoriteByUserIdAndFavoriteId(int userId, int favoriteId) {
-        /*
+        
         try
         {
             Favorite getFavorite = favoriteRepository.findFavouriteByUserAndFavouriteId(userId, favoriteId);
             favoriteRepository.deleteById(getFavorite.getId());
-            return new FavoriteResponse(toFavoriteOutput(getFavorite));
+            UserBoundResponse response = new UserBoundResponse("deleteFavoriteByUserIdAndFavoriteId","success",1);
+            response.setFavoriteOutput(toFavoriteOutput(getFavorite)); 
+            return response;
         }
         catch (Exception e)
         {
-            return new FavoriteResponse("An error ocurred while deleting the favourite relation : "+e.getMessage());
+            return new UserBoundResponse("deleteFavoriteByUserIdAndFavoriteId","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse deleteBlockByUserIdAndBlockId(int userId, int blockedId) {
-        /*
+        
         try
         {
             Block getBlock = blockRepository.findBlockByUserAndBlockedId(userId, blockedId);
             blockRepository.deleteById(getBlock.getId());
-            return new BlockedResponse(toBlockedOutput(getBlock));
+            UserBoundResponse response = new UserBoundResponse("deleteBlockByUserIdAndBlockId","success",1);
+            response.setBlockedOutput(toBlockedOutput(getBlock)); 
+            return response;
         }
         catch (Exception e)
         {
-            return new BlockedResponse("An error ocurred while deleting the blocked relation : "+e.getMessage());
+            return new UserBoundResponse("deleteBlockByUserIdAndBlockId","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse findUserByEmail(String email) {
-        /*
+        
         try
         {
             User getUser = userRepository.findPersonByEmail(email)
                     .orElseThrow(()->new ResourceNotFoundException("email","user",email));
 
-            return new UserResponse(toUserOutput(getUser));
+            UserBoundResponse response = new UserBoundResponse("findUserByEmail","success",1);
+            response.setUserOutput(toUserOutput(getUser));
+            return response;
         }
         catch (Exception e)
         {
-            return new UserResponse("An error ocurred while getting the user : "+e.getMessage());
+            return new UserBoundResponse("findUserByEmail","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public UserBoundResponse findUserById(int userId) {
-        /*
+        
         try
         {
             User getUser = userRepository.findById(userId)
                     .orElseThrow(()->new ResourceNotFoundException("User","id",userId));
-            return new UserResponse(toUserOutput(getUser));
+            UserBoundResponse response = new UserBoundResponse("findUserById","success",1);
+            response.setUserOutput(toUserOutput(getUser));
+            return response;
         }
         catch (Exception e)
         {
-            return new UserResponse("An error ocurred while updating the user"+e.getMessage());
+            return new UserBoundResponse("findUserById","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     /*
     @Override
-    public CustomerResponse findCustomerByUserId(int userId) {
+    public UserBoundResponse findCustomerByUserId(int userId) {
         
         try
         {
             User getUser = userRepository.findById(userId)
                     .orElseThrow(()->new ResourceNotFoundException("userId","user",userId));
             Customer getCustomer = getUser.getPerson().getCustomer();
+            UserBoundResponse response = new UserBoundResponse("findCustomerByUserId","success",1);
+            response.setUserOutput(toUserOutput(getUser));
+            return response;
             return new CustomerResponse(new CustomerOutput(getCustomer.getPerson().getUser().getId(),getCustomer.getPerson().getFirstName(),getCustomer.getPerson().getLastName(),getCustomer.getCredits(),getCustomer.getPerson().getUser().getEmail(), getCustomer.getPerson().getPersonType(), getCustomer.getId()));
         }
         catch (Exception e)
         {
             return new CustomerResponse("An error ocurred while getting customer: "+e.getMessage());
         }
-        
-
     }
     */
+    
 
     /*
     @Override
@@ -379,7 +395,7 @@ public class UserService implements IUserService {
     }
 
     public UserOutput toUserOutput(User user){
-        /*
+        
         UserOutput newUserOutput = new UserOutput();
         newUserOutput.setId(user.getId());
         newUserOutput.setEmail(user.getEmail());
@@ -392,14 +408,18 @@ public class UserService implements IUserService {
         else if(user.getPerson().getPersonType()==2)
             newUserOutput.setRole("Driver");
 
-        if(user.getPerson().getPersonType()==1)
-            newUserOutput.setRoleId(user.getPerson().getCustomer().getId());
-        if(user.getPerson().getPersonType()==2)
-            newUserOutput.setRoleId(user.getPerson().getDriver().getId());
+        if(user.getPerson().getPersonType()==1){
+            //authenticatedOutput.setRoleId(getPerson.getCustomer().getId());
+            Customer getCustomer = customerClient.getCustomerById(user.getPerson().getCustomerId()).getBody();
+            newUserOutput.setRoleId(getCustomer.getId());
+            
+        }
+        if(user.getPerson().getPersonType()==2){
+            Driver getDriver = driverClient.getDriverById(user.getPerson().getDriverId()).getBody();
+            newUserOutput.setRoleId(getDriver.getId());
+        }
 
         return newUserOutput;
-        */
-        return null;
     }
 
     public FavoriteOutput toFavoriteOutput(Favorite favorite)
