@@ -9,7 +9,7 @@ spring:
           uri: https://github.com/Josered30/tropsmart-microservices.git
           #uri: C:\Users\51931\Desktop\VSCode\TropSmart\TranajoFinalFundaSoftware\tropsmart-microservices
           searchPaths: config-data
-          default-label: "develop"
+          default-label: "feature/correccion-bibliotecas"
   security:
     user:
       name: root

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@FeignClient("configservice")
+@FeignClient("config-service")
 @RequestMapping("/configservice/configurations")
 public interface ConfigurationClient {
     

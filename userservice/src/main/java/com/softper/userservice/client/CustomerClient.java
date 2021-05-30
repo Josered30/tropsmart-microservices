@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient("customerservice")
-@RequestMapping("/customerservice/customer")
+@FeignClient("customer-service")
+@RequestMapping("/customerservice/customers")
 public interface CustomerClient {
     
     @GetMapping("/{cargoId}")
