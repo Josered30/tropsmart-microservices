@@ -7,10 +7,19 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public abstract class BaseResponse<T> {
-    public boolean success;
+public abstract class BaseResponse/*<T>*/ {
+    public String title;
     public String message;
     public Integer status;
+
+    public BaseResponse(String title, String message, Integer status) {
+        this.title = title;
+        this.message = message;
+        this.status = status;
+    }
+    
+    
+    /*
     public T resource;
     public List<T> resourceList;
 
@@ -36,5 +45,6 @@ public abstract class BaseResponse<T> {
         this.message = message;
         this.status = 0;
     }
+    */
 
 }

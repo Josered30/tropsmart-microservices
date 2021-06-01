@@ -58,19 +58,9 @@ public class PersonService implements IPersonService {
         try
         {
             UserBoundResponse response;
-            User getUser = userRepository.findUserByPersonId(id).get();
             Person getPerson = personRepository.findById(id).get();
-
-            PersonOutput newPersonOutput = new PersonOutput();
-            newPersonOutput.setEmail(getUser.getEmail());
-            newPersonOutput.setFirstName(getPerson.getFirstName());
-            newPersonOutput.setLastName(getPerson.getLastName());
-            if(getPerson.getPersonType()==1)
-                newPersonOutput.setUserType("Customer");
-            if(getPerson.getPersonType()==2)
-                newPersonOutput.setUserType("Driver");
             response = new UserBoundResponse("findPeopleById","success",1);
-            response.setPersonOutput(newPersonOutput);
+            response.setPersonOutput(toPersonOutput(getPerson));
             return response;
         }
         catch (Exception e)
@@ -88,16 +78,7 @@ public class PersonService implements IPersonService {
             List<Person> personList = personRepository.findAll();
             List<PersonOutput> personOutputList = new ArrayList<>();
             for (Person p:personList) {
-                Optional<User> getUser = userRepository.findUserByPersonId(p.getId());
-                PersonOutput newPersonOutput = new PersonOutput();
-                newPersonOutput.setEmail(getUser.get().getEmail());
-                newPersonOutput.setFirstName(p.getFirstName());
-                newPersonOutput.setLastName(p.getLastName());
-                if(p.getPersonType()==1)
-                    newPersonOutput.setUserType("Customer");
-                if(p.getPersonType()==2)
-                    newPersonOutput.setUserType("Driver");
-                personOutputList.add(newPersonOutput);
+                personOutputList.add(toPersonOutput(p));
             }
 
             response = new UserBoundResponse("findAllPersons","success",1);
@@ -110,4 +91,31 @@ public class PersonService implements IPersonService {
         }
         
     }
+
+    @Override
+    public Person getPersonById(int personId)
+    {
+        try{
+            return personRepository.findById(personId).get();
+        
+        }catch(Exception e)
+        {
+            return null;
+        }
+    }
+
+    public PersonOutput toPersonOutput(Person getPerson)
+    {
+        PersonOutput newPersonOutput = new PersonOutput();
+        newPersonOutput.setId(getPerson.getId());
+        newPersonOutput.setEmail(getPerson.getUser().getEmail());
+        newPersonOutput.setFirstName(getPerson.getFirstName());
+        newPersonOutput.setLastName(getPerson.getLastName());
+        if(getPerson.getPersonType()==1)
+            newPersonOutput.setUserType("Customer");
+        if(getPerson.getPersonType()==2)
+            newPersonOutput.setUserType("Driver");
+
+        return newPersonOutput;
+    } 
 }

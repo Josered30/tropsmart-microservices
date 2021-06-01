@@ -9,7 +9,7 @@ import com.softper.cargoservice.models.ServiceRequest;
 import com.softper.cargoservice.repositories.IRouteRepository;
 import com.softper.cargoservice.repositories.IServiceRepository;
 //import com.softper.cargoservice.repositories.IServiceRequestRepository;
-import com.softper.cargoservice.resources.comunications.ServiceResponse;
+import com.softper.cargoservice.resources.comunications.CargoBoundResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class ServiceService implements IServiceService {
 
 
     @Override
-    public ServiceResponse findSomeServiceByDriverId(int driverId) {
+    public CargoBoundResponse findSomeServiceByDriverId(int driverId) {
         /*
         try{
             List<com.softper.userservice.models.Service> services = serviceRepository.findServicesByDriverId(driverId);
@@ -65,7 +65,7 @@ public class ServiceService implements IServiceService {
     }
 
     @Override
-    public ServiceResponse findServicesByDriverId(int driverId) {
+    public CargoBoundResponse findServicesByDriverId(int driverId) {
         /*try
         {
             List<com.softper.userservice.models.Service> services = serviceRepository.findServicesByDriverId(driverId);
@@ -91,7 +91,7 @@ public class ServiceService implements IServiceService {
     }
 
     @Override
-    public ServiceResponse findAllServices() {
+    public CargoBoundResponse findAllServices() {
         /*
         try
         {
@@ -119,7 +119,7 @@ public class ServiceService implements IServiceService {
     }
 
     @Override
-    public ServiceResponse createService(int driverId) {
+    public CargoBoundResponse createService(int driverId) {
         /*
         try
         {

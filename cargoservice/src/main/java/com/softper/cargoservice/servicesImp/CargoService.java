@@ -1,6 +1,7 @@
 package com.softper.cargoservice.servicesImp;
 
-import com.softper.cargoservice.resources.comunications.CargoResponseFixed;
+import com.softper.cargoservice.resources.comunications.CargoBoundResponse;
+//import com.softper.cargoservice.resources.comunications.CargoResponseFixed;
 import com.softper.cargoservice.resources.inputs.CargoInput;
 import com.softper.cargoservice.resources.outputs.CargoOutput;
 import com.softper.cargoservice.resources.outputs.CargoOutputFixed;
@@ -8,7 +9,7 @@ import com.softper.cargoservice.services.ICargoService;
 import com.softper.cargoservice.exception.ResourceNotFoundException;
 import com.softper.cargoservice.models.*;
 import com.softper.cargoservice.repositories.*;
-import com.softper.cargoservice.resources.comunications.CargoResponse;
+//import com.softper.cargoservice.resources.comunications.CargoResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +67,7 @@ public class CargoService implements ICargoService {
 
 
     @Override
-    public CargoResponse findCargoesByCustomerId(int customerId) {
+    public CargoBoundResponse findCargoesByCustomerId(int customerId) {
         /*try
         {
             List<Cargo> cargoes = cargoRepository.findCargoesByCustomerId(customerId);
@@ -84,7 +85,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse addCargoByCustomerId(int customerId, CargoInput cargoInput) {
+    public CargoBoundResponse addCargoByCustomerId(int customerId, CargoInput cargoInput) {
         /*try
         {
             com.softper.userservice.models.Service getService = serviceRepository.findById(cargoInput.getServiceId()).get();
@@ -140,7 +141,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse findCargoById(int cargoId) {
+    public CargoBoundResponse findCargoById(int cargoId) {
         /*try
         {
             Cargo getCargo = cargoRepository.findById(cargoId).get();
@@ -155,7 +156,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse findAllCargoes() {
+    public CargoBoundResponse findAllCargoes() {
         /*try
         {
             List<Cargo> cargoes = cargoRepository.findAll();
@@ -173,7 +174,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse findAllCargoesFixed() {
+    public CargoBoundResponse findAllCargoesFixed() {
         /*try
         {
             List<Cargo> cargoes = cargoRepository.findAll();
@@ -191,7 +192,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse setCargoDelivered(int cargoId) {
+    public CargoBoundResponse setCargoDelivered(int cargoId) {
         /*try
         {
             Cargo getCargo = cargoRepository.findById(cargoId).get();
@@ -214,7 +215,7 @@ public class CargoService implements ICargoService {
 
 
     @Override
-    public CargoResponse findCargoesByDriverId(int driverId) {
+    public CargoBoundResponse findCargoesByDriverId(int driverId) {
         /*try
         {
             ServiceRequest getServiceRequest = serviceRequestRepository.findServiceByDriverId(driverId);
@@ -236,7 +237,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse findRequestedCargoesByDriverId(int driverId) {
+    public CargoBoundResponse findRequestedCargoesByDriverId(int driverId) {
         /*try
         {
             ServiceRequest getServiceRequest = serviceRequestRepository.findServiceByDriverId(driverId);
@@ -263,7 +264,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse findConfirmedCargoesByDriverId(int driverId) {
+    public CargoBoundResponse findConfirmedCargoesByDriverId(int driverId) {
         /*try
         {
             ServiceRequest getServiceRequest = serviceRequestRepository.findServiceByDriverId(driverId);
@@ -289,7 +290,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse findFinishedCargoesByDriverId(int driverId) {
+    public CargoBoundResponse findFinishedCargoesByDriverId(int driverId) {
         /*try
         {
             ServiceRequest getServiceRequest = serviceRequestRepository.findServiceByDriverId(driverId);
@@ -317,7 +318,7 @@ public class CargoService implements ICargoService {
 
 
     @Override
-    public CargoResponse confirmCargoRequest(int cargoId) {
+    public CargoBoundResponse confirmCargoRequest(int cargoId) {
         /*try
         {
             Cargo getCargo = cargoRepository.findById(cargoId).get();
@@ -338,7 +339,7 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public CargoResponse rejectCargoById(int cargoId) {
+    public CargoBoundResponse rejectCargoById(int cargoId) {
         /*try
         {
             Cargo getCargo = cargoRepository.findById(cargoId).get();

@@ -4,7 +4,7 @@ import com.softper.cargoservice.resources.outputs.PriceOutput;
 import com.softper.cargoservice.services.IPriceService;
 import com.softper.cargoservice.models.Price;
 import com.softper.cargoservice.repositories.IPriceRepository;
-import com.softper.cargoservice.resources.comunications.PriceResponse;
+import com.softper.cargoservice.resources.comunications.CargoBoundResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +43,7 @@ public class PriceService implements IPriceService {
     }
 
     @Override
-    public PriceResponse findAllPrices() {
+    public CargoBoundResponse findAllPrices() {
         /*
         try
         {
@@ -72,7 +72,7 @@ public class PriceService implements IPriceService {
     }
 
     @Override
-    public PriceResponse findPriceById(int priceId) {
+    public CargoBoundResponse findPriceById(int priceId) {
         /*
         try
         {
@@ -96,7 +96,7 @@ public class PriceService implements IPriceService {
     }
 
     @Override
-    public PriceResponse findPricesByPriceType(int priceType) {
+    public CargoBoundResponse findPricesByPriceType(int priceType) {
         /*try
         {
             List<Price> prices = priceRepository.findPricesByType(priceType);

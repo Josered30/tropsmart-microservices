@@ -21,24 +21,36 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
-    private User user;
+    //@OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    //private User user;
 
-    @Column(name = "first_name",nullable = false, length = 50)
+    @Column(name = "first_name", length = 50)
     private String firstName;
 
-    @Column(name = "last_name",nullable = false, length = 50)
+    @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @Column(name = "phone",nullable = false)
+    @Column(name = "phone")
     private String phone;
 
-    @Column(name = "person_type", nullable = false)
+    @Column(name = "person_type")
     private int personType;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    //@OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    //private Customer customer;
+
+    @Column(name = "customer_id")
+    private Integer customerId;
+
+    @Transient
     private Customer customer;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+
+   //@OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    //private Driver driver;
+    @Column(name = "driver_id")
+    private Integer driverId;
+
+    @Transient
     private Driver driver;
 }

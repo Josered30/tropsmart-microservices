@@ -1,6 +1,7 @@
 package com.softper.customerservice.resources.comunications;
 
 import com.softper.customerservice.resources.comunications.BaseResponse;
+import com.softper.customerservice.resources.outputs.BalanceOutput;
 import com.softper.customerservice.resources.outputs.CustomerOutput;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,8 @@ public class CustomerBoundResponse extends BaseResponse{
     CustomerOutput customerOutput;
 
     List<CustomerOutput> customerOutputs;
+
+    BalanceOutput balanceOutput;
+
+    List<BalanceOutput> balanceOutputs;
 }

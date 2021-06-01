@@ -56,8 +56,8 @@ public class AuthService implements IAuthService {
     private IUserRepository userRepository;
 
     
-    @Autowired
-    private IBalanceRepository balanceRepository;
+    //@Autowired
+    //private IBalanceRepository balanceRepository;
     
     @Autowired
     private JwtProvider jwtProvider;
@@ -123,11 +123,11 @@ public class AuthService implements IAuthService {
                 ConfigBoundResponse configurationResponse = configurationClient.generateConfiguration().getBody();
 
 
-                Balance newBalance = new Balance();
-                newBalance.setSpentMoney(0);
-                newBalance.setAddedMoney(0);
+                //Balance newBalance = new Balance();
+                //newBalance.setSpentMoney(0);
+                //newBalance.setAddedMoney(0);
     
-                newBalance = balanceRepository.save(newBalance);
+                //newBalance = balanceRepository.save(newBalance);
     
     
                 User user = new User();
@@ -140,7 +140,7 @@ public class AuthService implements IAuthService {
                 user.setCreatedAt(Calendar.getInstance().getTime());
                 //user.setConfiguration(newConfiguration);
                 user.setConfigurationId(configurationResponse.getConfigurationOutput().getId());
-                user.setBalance(newBalance);
+                //user.setBalance(newBalance);
     
                 user = userRepository.save(user);
     

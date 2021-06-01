@@ -2,6 +2,7 @@ package com.softper.userservice.resources.comunications;
 
 import java.util.List;
 
+import com.softper.userservice.resources.outputs.BalanceOutput;
 import com.softper.userservice.resources.outputs.CustomerOutput;
 
 import lombok.Data;
@@ -15,4 +16,8 @@ public class CustomerBoundResponse extends BaseResponse{
     CustomerOutput customerOutput;
 
     List<CustomerOutput> customerOutputs;
+
+    BalanceOutput balanceOutput;
+
+    List<BalanceOutput> balanceOutputs;
 }

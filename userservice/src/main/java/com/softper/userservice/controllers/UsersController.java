@@ -56,6 +56,15 @@ public class UsersController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/by-personid/{personId}")
+    public ResponseEntity<UserBoundResponse> findUserByPersonId(@PathVariable(value = "personId")int personId)
+    {
+        UserBoundResponse result = userService.findUserByPersonId(personId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
     //========================================================================
 
     @GetMapping("/{userId}/favorites")

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.softper.userservice.models.Customer;
 import com.softper.userservice.resources.comunications.CustomerBoundResponse;
+import com.softper.userservice.resources.outputs.CustomerOutput;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -23,4 +24,7 @@ public interface CustomerClient {
 
     @GetMapping("/by-personId/{personId}")
     public ResponseEntity<Customer> getCustomersByPersonId(@PathVariable(value = "personId") int personId);
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerBoundResponse> findCustomersById(@PathVariable(value = "customerId") int customerId);
 }

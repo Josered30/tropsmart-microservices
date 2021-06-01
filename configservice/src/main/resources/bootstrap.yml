@@ -13,3 +13,9 @@ spring:
     admin:
       client:
         url: http://localhost:8086
+
+springdoc:
+  api-docs:
+    path: /ts-api-docs
+  swagger-ui:
+    path: /index.html

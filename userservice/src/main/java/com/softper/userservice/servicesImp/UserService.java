@@ -330,6 +330,22 @@ public class UserService implements IUserService {
         }
     }
 
+    @Override
+    public UserBoundResponse findUserByPersonId(int personId)
+    {
+        try{
+            User getUser = userRepository.findUserByPersonId(personId)
+                    .orElseThrow(()->new ResourceNotFoundException("User","personId",personId));
+            UserBoundResponse response = new UserBoundResponse("findUserByPersonId", "success", 1);
+            response.setUserOutput(toUserOutput(getUser));
+            return response;
+        } catch(Exception e)
+        {
+            return new UserBoundResponse("findUserByPersonId","An error ocurred : "+e.getMessage(),-2);
+        }
+    }
+
+
     /*
     @Override
     public UserBoundResponse findCustomerByUserId(int userId) {
