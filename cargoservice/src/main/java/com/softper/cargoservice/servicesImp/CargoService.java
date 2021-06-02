@@ -6,6 +6,7 @@ import com.softper.cargoservice.resources.inputs.CargoInput;
 import com.softper.cargoservice.resources.outputs.CargoOutput;
 import com.softper.cargoservice.resources.outputs.CargoOutputFixed;
 import com.softper.cargoservice.services.ICargoService;
+import com.softper.cargoservice.services.ReviewInput;
 import com.softper.cargoservice.exception.ResourceNotFoundException;
 import com.softper.cargoservice.models.*;
 import com.softper.cargoservice.repositories.*;
@@ -359,6 +360,15 @@ public class CargoService implements ICargoService {
         */
         return null;
     }
+
+    @Override    
+    public CargoBoundResponse addReviewByCargoId(int cargoId, ReviewInput reviewInput)
+    {
+        //Metodo para registrar el cargo
+        //
+        return null;
+    }
+
 
 
     public CargoOutput toCargoOutput(Cargo cargo){

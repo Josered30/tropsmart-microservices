@@ -41,19 +41,17 @@ public class DriverService implements IDriverService {
 
     @Override
     public Driver save(Driver driver) throws Exception {
-        //return driverRepository.save(driver);
-        return null;
+        return driverRepository.save(driver);
     }
 
     @Override
     public void deleteById(Integer id) throws Exception {
-        //driverRepository.deleteById(id);
+        driverRepository.deleteById(id);
     }
 
     @Override
     public Optional<Driver> findById(Integer id) throws Exception {
-        //return driverRepository.findById(id);
-        return null;
+        return driverRepository.findById(id);
     }
 
     @Override
@@ -71,38 +69,39 @@ public class DriverService implements IDriverService {
 
     @Override
     public DriverBoundResponse findDriverById(int driverId) {
-        /*try
+        try
         {
-            Driver getDriver = driverRepository.findById(driverId).get();
-            return new DriverResponse(new DriverOutput(getDriver.getPerson().getUser().getId(),getDriver.getPerson().getFirstName(),getDriver.getPerson().getLastName(),getDriver.getLicense(),getDriver.getPerson().getUser().getEmail(),getDriver.getPerson().getPersonType(),getDriver.getId()));
+            Optional<Driver> getDriver = driverRepository.findById(driverId);
+            DriverBoundResponse response = new DriverBoundResponse("findDriverById","success",1);
+            if(getDriver.isPresent())
+                response.setDriverOutput(toDriverOutput(getDriver.get()));
+            
+            return response;
         }
         catch (Exception e)
         {
-            return new DriverResponse("An error ocurred while getting driver: "+e.getMessage());
-        }*/
-        return null;
-
+            return new DriverBoundResponse("findDriverById","An error ocurred : "+e.getMessage(),-2);
+        }
     }
 
 
     @Override
     public DriverBoundResponse findAllDrivers() {
-        /*try
+        try
         {
             List<Driver> drivers = driverRepository.findAll();
             List<DriverOutput> driverOutputList = new ArrayList<>();
             for (Driver getDriver:drivers) {
-                driverOutputList.add(new DriverOutput(getDriver.getPerson().getUser().getId(),getDriver.getPerson().getFirstName(),getDriver.getPerson().getLastName(),getDriver.getLicense(),getDriver.getPerson().getUser().getEmail(),getDriver.getPerson().getPersonType(),getDriver.getId()));
+                driverOutputList.add(toDriverOutput(getDriver));
             }
-            return new DriverResponse(driverOutputList);
+            DriverBoundResponse response = new DriverBoundResponse("findAllDrivers","success",1);
+            response.setDriverOutputs(driverOutputList);
+            return response;
         }
         catch (Exception e)
         {
-            return new DriverResponse("An error ocurred while getting driver list: "+e.getMessage());
+            return new DriverBoundResponse("findAllDrivers","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
-
     }
 
     @Override
@@ -144,7 +143,11 @@ public class DriverService implements IDriverService {
     public Driver getDriverById(int driverId)
     {   
         try{
-            return driverRepository.findById(driverId).get();
+            Optional<Driver> getDriver = driverRepository.findById(driverId);
+            if(getDriver.isPresent())
+                return getDriver.get();
+            else
+                return null;
         } catch(Exception e)
         {
             return null;

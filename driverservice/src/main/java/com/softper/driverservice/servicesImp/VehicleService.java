@@ -8,8 +8,10 @@ import com.softper.driverservice.repositories.IVehicleRepository;
 import com.softper.driverservice.resources.comunications.DriverBoundResponse;
 import com.softper.driverservice.resources.inputs.VehicleInput;
 import com.softper.driverservice.resources.outputs.DriverOutput;
+import com.softper.driverservice.resources.outputs.PersonOutput;
 import com.softper.driverservice.resources.outputs.VehicleOutput;
 import com.softper.driverservice.services.IVehicleService;
+import com.softper.driverservice.client.UserClient;
 import com.softper.driverservice.exception.ResourceNotFoundException;
 import com.softper.driverservice.models.Driver;
 import com.softper.driverservice.models.Qualification;
@@ -38,65 +40,62 @@ public class VehicleService implements IVehicleService {
     @Autowired
     private ISoatRepository soatRepository;
 
+    @Autowired
+    private UserClient userClient;
+
     @Transactional
     @Override
     public Vehicle save(Vehicle vehicle) throws Exception {
-        //return vehicleRepository.save(vehicle);
-        return null;
-
+        return vehicleRepository.save(vehicle);
     }
 
     @Override
     public void deleteById(Integer id) throws Exception {
-        //vehicleRepository.deleteById(id);
+        vehicleRepository.deleteById(id);
     }
 
     @Override
     public Optional<Vehicle> findById(Integer id) throws Exception {
-        //return vehicleRepository.findById(id);
-        return null;
+        return vehicleRepository.findById(id);
     }
 
     @Override
     public List<Vehicle> findAll() throws Exception {
-        //return vehicleRepository.findAll();
-        return null;
-
+        return vehicleRepository.findAll();
     }
 
 
     @Override
     public DriverBoundResponse findVehiclesByDriverId(int driverId) {
-        /*try
+        try
         {
             List<Vehicle> vehicles = vehicleRepository.getVehiclesByDriverId(driverId);
             List<VehicleOutput> vehicleOutputList = new ArrayList<>();
-            for (Vehicle v:vehicles) {
-                VehicleOutput newVehicleOutput = new VehicleOutput();
-                newVehicleOutput.setDriver(v.getDriver().getPerson().getFirstName()+" "+v.getDriver().getPerson().getLastName());
-                newVehicleOutput.setModel(v.getModel());
-                newVehicleOutput.setBrand(v.getBrand());
-                newVehicleOutput.setLoadingCapacity(v.getLoadingCapacity());
-                vehicleOutputList.add(newVehicleOutput);
+            for (Vehicle getVehicle:vehicles) {
+                PersonOutput getPerson = userClient.findPersonById(getVehicle.getDriver().getId()).getBody().getPersonOutput();
+                vehicleOutputList.add(toVehicleOutput(getVehicle, getPerson));
             }
-            return new VehicleResponse(vehicleOutputList);
+            DriverBoundResponse response = new DriverBoundResponse("findVehiclesByDriverId", "success",1);
+            response.setVehicleOutputs(vehicleOutputList);
+            return response;
         }
         catch (Exception e)
         {
-            return new VehicleResponse("An error ocurred while getting the vehicle list : "+e.getMessage());
-        }*/
-        return null;
+            return new DriverBoundResponse("findVehiclesByDriverId", "An error ocurred : "+e.getMessage(),-2);
+        }
     }
 
     @Override
     public DriverBoundResponse addVehicleByUserId(int driverId, VehicleInput vehicleInput) {
-        /*try
+        try
         {
             Driver getDriver = driverRepository.findById(driverId)
                     .orElseThrow(()-> new ResourceNotFoundException("driver","id",driverId));
 
+            PersonOutput getPerson = userClient.findPersonById(getDriver.getPersonId()).getBody().getPersonOutput();
+
             Soat newSoat = new Soat();
-            newSoat.setAssociateName(getDriver.getPerson().getFirstName()+" "+getDriver.getPerson().getLastName());
+            newSoat.setAssociateName(getPerson.getFirstName()+" "+getPerson.getLastName());
             newSoat.setEmissionDate(Calendar.getInstance().getTime());
             newSoat.setExpireDate(Calendar.getInstance().getTime());
             newSoat.setServiceType("Servicio de carga");
@@ -115,64 +114,61 @@ public class VehicleService implements IVehicleService {
 
             newVehicle = vehicleRepository.save(newVehicle);
 
-            VehicleOutput newVehicleOutput = new VehicleOutput();
-            newVehicleOutput.setDriver(newVehicle.getDriver().getPerson().getFirstName()+" "+newVehicle.getDriver().getPerson().getLastName());
-            newVehicleOutput.setLoadingCapacity(newVehicle.getLoadingCapacity());
-            newVehicleOutput.setBrand(newVehicle.getBrand());
-            newVehicleOutput.setModel(newVehicle.getModel());
-
-            return new VehicleResponse(newVehicleOutput);
+            DriverBoundResponse response = new DriverBoundResponse("addVehicleByUserId","success",1);
+            response.setVehicleOutput(toVehicleOutput(newVehicle, getPerson));;
+            return response;
         }
         catch (Exception e)
         {
-            return new VehicleResponse("An error ocurred while saving the vehicle : "+e.getMessage());
+            return new DriverBoundResponse("addVehicleByUserId", "An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
-
     }
 
     @Override
     public DriverBoundResponse findAllVehicles() {
-        /*try
+        try
         {
             List<Vehicle> vehicles = vehicleRepository.findAll();
             List<VehicleOutput> vehicleOutputList = new ArrayList<>();
-            for (Vehicle v:vehicles) {
-                VehicleOutput newVehicleOutput = new VehicleOutput();
-                newVehicleOutput.setDriver(v.getDriver().getPerson().getFirstName()+" "+v.getDriver().getPerson().getLastName());
-                newVehicleOutput.setModel(v.getModel());
-                newVehicleOutput.setBrand(v.getBrand());
-                newVehicleOutput.setLoadingCapacity(v.getLoadingCapacity());
-                vehicleOutputList.add(newVehicleOutput);
+            for (Vehicle getVehicle:vehicles) {
+                PersonOutput getPerson = userClient.findPersonById(getVehicle.getDriver().getId()).getBody().getPersonOutput();
+                vehicleOutputList.add(toVehicleOutput(getVehicle, getPerson));
             }
-            return new VehicleResponse(vehicleOutputList);
+            DriverBoundResponse response = new DriverBoundResponse("findAllVehicles", "success",1);
+            response.setVehicleOutputs(vehicleOutputList);
+            return response;
         }
         catch (Exception e)
         {
-            return new VehicleResponse("An error ocurred while getting the vehicles list : "+e.getMessage());
+            return new DriverBoundResponse("findAllVehicles", "An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
     }
 
     @Override
     public DriverBoundResponse findVehicleById(int vehicleId) {
-        /*try
+        try
         {
-            Vehicle getVehicle = vehicleRepository.findById(vehicleId).get();
-            VehicleOutput newVehicleOutput = new VehicleOutput();
-            newVehicleOutput.setDriver(getVehicle.getDriver().getPerson().getFirstName()+" "+getVehicle.getDriver().getPerson().getLastName());
-            newVehicleOutput.setModel(getVehicle.getModel());
-            newVehicleOutput.setBrand(getVehicle.getBrand());
-            newVehicleOutput.setLoadingCapacity(getVehicle.getLoadingCapacity());
-            return new VehicleResponse(newVehicleOutput);
+            Optional<Vehicle> getVehicle = vehicleRepository.findById(vehicleId);
+            DriverBoundResponse response = new DriverBoundResponse("findVehicleById","success",1);
+            if(getVehicle.isPresent()){
+                PersonOutput getPerson = userClient.findPersonById(getVehicle.get().getDriver().getPersonId()).getBody().getPersonOutput();
+                response.setVehicleOutput(toVehicleOutput(getVehicle.get(), getPerson));
+            }
+            return response;
         }
         catch (Exception e)
         {
-            return new VehicleResponse("An error ocurred while getting the vehicle : "+e.getMessage());
-        }*/
-        return null;
+            return new DriverBoundResponse("findVehicleById","An error ocurred : "+e.getMessage(),-2);
+        }
+    }
+
+    public VehicleOutput toVehicleOutput(Vehicle getVehicle, PersonOutput getPerson) {
+        VehicleOutput newVehicleOutput = new VehicleOutput();
+        newVehicleOutput.setDriver(getPerson.getFirstName()+" "+getPerson.getLastName());
+        newVehicleOutput.setModel(getVehicle.getModel());
+        newVehicleOutput.setBrand(getVehicle.getBrand());
+        newVehicleOutput.setLoadingCapacity(getVehicle.getLoadingCapacity());
+        return newVehicleOutput;
     }
 
    

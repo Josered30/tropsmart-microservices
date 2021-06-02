@@ -71,6 +71,7 @@ public class CargoesController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
     @PutMapping("{cargoId}/confirms")
     public ResponseEntity<CargoBoundResponse> setCargoConfirmed(@PathVariable(value = "cargoId")int cargoId)
     {
