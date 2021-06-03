@@ -1,0 +1,35 @@
+#Application Configuration
+server:
+  port: 8095
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /console
+  datasource:
+    url: jdbc:mysql://localhost:3306/cargoservice?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: root
+    password: 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  #boot:
+  #  admin:
+  #    client:
+  #      url: http://localhost:8086
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

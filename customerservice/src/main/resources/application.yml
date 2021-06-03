@@ -1,0 +1,40 @@
+server:
+    port: 8092
+
+spring:
+    application:
+        name: customerservice
+    datasource:
+        url: jdbc:mysql://localhost:3306/customerservice?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+        username: root
+        password:
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    h2:
+        console:
+            enabled: true
+            path: /console
+    cloud:
+        config:
+            uri: http://localhost:8081
+            username: root
+            password: s3cr3t
+    boot:
+        admin:
+            client:
+                url: http://localhost:8086
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://localhost:8099/eureka
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
