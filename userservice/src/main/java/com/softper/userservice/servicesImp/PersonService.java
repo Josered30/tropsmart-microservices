@@ -1,5 +1,7 @@
 package com.softper.userservice.servicesImp;
 
+import com.softper.userservice.client.CustomerClient;
+import com.softper.userservice.client.DriverClient;
 import com.softper.userservice.models.Person;
 import com.softper.userservice.models.User;
 import com.softper.userservice.repositories.IPersonRepository;
@@ -19,8 +21,15 @@ public class PersonService implements IPersonService {
 
     @Autowired
     IPersonRepository personRepository;
+    
     @Autowired
     IUserRepository userRepository;
+    
+    @Autowired
+    private CustomerClient customerClient;
+
+    @Autowired
+    private DriverClient driverClient;
 
     @Override
     public Person save(Person person) {
@@ -45,59 +54,68 @@ public class PersonService implements IPersonService {
 
     @Override
     public UserBoundResponse findPeopleById(int id) {
-        /*
+        
         try
         {
-            User getUser = userRepository.findUserByPersonId(id).get();
+            UserBoundResponse response;
             Person getPerson = personRepository.findById(id).get();
-
-            PersonOutput newPersonOutput = new PersonOutput();
-            newPersonOutput.setEmail(getUser.getEmail());
-            newPersonOutput.setFirstName(getPerson.getFirstName());
-            newPersonOutput.setLastName(getPerson.getLastName());
-            if(getPerson.getPersonType()==1)
-                newPersonOutput.setUserType("Customer");
-            if(getPerson.getPersonType()==2)
-                newPersonOutput.setUserType("Driver");
-            return new PersonResponse(newPersonOutput);
+            response = new UserBoundResponse("findPeopleById","success",1);
+            response.setPersonOutput(toPersonOutput(getPerson));
+            return response;
         }
         catch (Exception e)
         {
-            return new PersonResponse("An error ocurred while getting the person: "+e.getMessage());
-
+            return new UserBoundResponse("findPeopleById","An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
-
     }
 
     @Override
     public UserBoundResponse findAllPersons() {
-        /*
+        
         try
         {
+            UserBoundResponse response;
             List<Person> personList = personRepository.findAll();
             List<PersonOutput> personOutputList = new ArrayList<>();
             for (Person p:personList) {
-                Optional<User> getUser = userRepository.findUserByPersonId(p.getId());
-                PersonOutput newPersonOutput = new PersonOutput();
-                newPersonOutput.setEmail(getUser.get().getEmail());
-                newPersonOutput.setFirstName(p.getFirstName());
-                newPersonOutput.setLastName(p.getLastName());
-                if(p.getPersonType()==1)
-                    newPersonOutput.setUserType("Customer");
-                if(p.getPersonType()==2)
-                    newPersonOutput.setUserType("Driver");
-                personOutputList.add(newPersonOutput);
+                personOutputList.add(toPersonOutput(p));
             }
-            return new PersonResponse(personOutputList);
+
+            response = new UserBoundResponse("findAllPersons","success",1);
+            response.setPersonOutputs(personOutputList);
+            return response;
         }
         catch (Exception e)
         {
-            return new PersonResponse("An error ocurred while getting the person list: "+e.getMessage());
+            return new UserBoundResponse("findAllPersons", "An error ocurred : "+e.getMessage(),-2);
         }
-        */
-        return null;
-
+        
     }
+
+    @Override
+    public Person getPersonById(int personId)
+    {
+        try{
+            return personRepository.findById(personId).get();
+        
+        }catch(Exception e)
+        {
+            return null;
+        }
+    }
+
+    public PersonOutput toPersonOutput(Person getPerson)
+    {
+        PersonOutput newPersonOutput = new PersonOutput();
+        newPersonOutput.setId(getPerson.getId());
+        newPersonOutput.setEmail(getPerson.getUser().getEmail());
+        newPersonOutput.setFirstName(getPerson.getFirstName());
+        newPersonOutput.setLastName(getPerson.getLastName());
+        if(getPerson.getPersonType()==1)
+            newPersonOutput.setUserType("Customer");
+        if(getPerson.getPersonType()==2)
+            newPersonOutput.setUserType("Driver");
+
+        return newPersonOutput;
+    } 
 }

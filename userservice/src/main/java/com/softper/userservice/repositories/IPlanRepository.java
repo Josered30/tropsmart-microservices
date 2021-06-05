@@ -11,15 +11,15 @@ import java.util.List;
 @Repository
 public interface IPlanRepository extends JpaRepository<Plan, Integer> {
 
-    /*
-    @Query("select p from Plan p where p.price.totalPrice = (:price)")
+    
+    @Query("select p from Plan p where p.totalPrice = (:price)")
     List<Plan> findPlansByPriceValue(@Param("price") double priceValue);
 
-    @Query("select p from Plan p where p.price.totalPrice > (:price)")
+    @Query("select p from Plan p where p.totalPrice > (:price)")
     List<Plan> findPlansHigherThanPriceValue(@Param("price") double priceValue);
 
-    @Query("select p from Plan p where p.price.totalPrice < (:price)")
+    @Query("select p from Plan p where p.totalPrice < (:price)")
     List<Plan> findPlansLessThanPriceValue(@Param("price") double priceValue);
-    */
+    
 }
 

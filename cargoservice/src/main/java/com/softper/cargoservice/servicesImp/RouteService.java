@@ -7,7 +7,7 @@ import com.softper.cargoservice.models.Route;
 import com.softper.cargoservice.repositories.ICargoRepository;
 import com.softper.cargoservice.repositories.ILocationRepository;
 import com.softper.cargoservice.repositories.IRouteRepository;
-import com.softper.cargoservice.resources.comunications.RouteResponse;
+import com.softper.cargoservice.resources.comunications.CargoBoundResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class RouteService implements IRouteService {
     ILocationRepository locationRepository;
 
     @Override
-    public RouteResponse getRouteInfo(int cargoId) {
+    public CargoBoundResponse getRouteInfo(int cargoId) {
         /*try
         {
             Location getLocation = locationRepository.findLocationByCargoId(cargoId);
@@ -58,7 +58,7 @@ public class RouteService implements IRouteService {
     }
 
     @Override
-    public RouteResponse findAllRoutes() {
+    public CargoBoundResponse findAllRoutes() {
         /*try
         {
             List<Route> routeList = routeRepository.findAll();
@@ -94,7 +94,7 @@ public class RouteService implements IRouteService {
     }
 
     @Override
-    public RouteResponse findRouteById(int routeId) {
+    public CargoBoundResponse findRouteById(int routeId) {
         /*
         try {
             Route getRoute = routeRepository.findById(routeId).get();

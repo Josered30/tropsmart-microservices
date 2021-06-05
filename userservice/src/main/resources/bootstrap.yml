@@ -1,18 +1,26 @@
+server:
+  port: 8091
+
 spring:
-    application:
-        name: user-service
-    cloud:
-        config:
-            uri: http://localhost:8081
-            username: root
-            password: s3cr3t
-    boot:
-      admin:
-        client:
-          url: http://localhost:8086
+  application:
+    name: user-service
+  cloud:
+    config:
+      uri: http://localhost:8081
+      username: root
+      password: s3cr3t
+  boot:
+    admin:
+      client:
+        url: http://localhost:8086
 
 env:
   jwtSecret: fdsfdfokpokposdwkfposksd
   jwtExpiration: 200000
   refreshTokenExpiration: 30000
 
+springdoc:
+  api-docs:
+    path: /ts-api-docs
+  swagger-ui:
+    path: /index.html

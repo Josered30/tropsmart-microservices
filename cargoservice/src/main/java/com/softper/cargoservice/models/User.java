@@ -68,11 +68,4 @@ public class User implements Serializable {
     @OneToOne
     @JoinColumn(name = "configuration_id")
     private Configuration configuration;
-
-    @OneToOne
-    @JoinColumn(name = "balance_id")
-    private Balance balance;
-
-
-
 }

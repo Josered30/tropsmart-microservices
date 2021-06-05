@@ -1,6 +1,6 @@
 package com.softper.cargoservice.controllers;
 
-import com.softper.cargoservice.resources.comunications.PriceResponse;
+import com.softper.cargoservice.resources.comunications.CargoBoundResponse;
 import com.softper.cargoservice.servicesImp.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +15,9 @@ public class PricesController {
     PriceService priceService;
 
     @GetMapping
-    public ResponseEntity<PriceResponse> findAllPrices()
+    public ResponseEntity<CargoBoundResponse> findAllPrices()
     {
-        PriceResponse result = priceService.findAllPrices();
+        CargoBoundResponse result = priceService.findAllPrices();
 
         //if(!result.success)
         //    return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
@@ -26,9 +26,9 @@ public class PricesController {
     }
 
     @GetMapping("/{priceId}")
-    public ResponseEntity<PriceResponse> findPriceById(@PathVariable(value = "priceId")int priceId)
+    public ResponseEntity<CargoBoundResponse> findPriceById(@PathVariable(value = "priceId")int priceId)
     {
-        PriceResponse result = priceService.findPriceById(priceId);
+        CargoBoundResponse result = priceService.findPriceById(priceId);
 
         //if(!result.success)
         //    return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
@@ -37,12 +37,11 @@ public class PricesController {
     }
 
     @GetMapping("price-type/{priceType}")
-    public ResponseEntity<PriceResponse> findPricesByPriceType(@PathVariable(value = "priceType")int priceType)
+    public ResponseEntity<CargoBoundResponse> findPricesByPriceType(@PathVariable(value = "priceType")int priceType)
     {
-        PriceResponse result =  priceService.findPricesByPriceType(priceType);
+        CargoBoundResponse result =  priceService.findPricesByPriceType(priceType);
 
-        if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+    
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }

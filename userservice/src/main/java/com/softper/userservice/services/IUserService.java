@@ -20,6 +20,7 @@ public interface IUserService extends ICrudService<User>{
     UserBoundResponse findBlockByUserIdAndBlockedId(int userId, int blockedId);
     UserBoundResponse deleteFavoriteByUserIdAndFavoriteId(int userId, int favoriteId);
     UserBoundResponse deleteBlockByUserIdAndBlockId(int userId, int blockedId);
+    UserBoundResponse findUserByPersonId(int personid);
 
     //CustomerResponse findCustomerByUserId(int userId);
     //DriverResponse findDriverByUserId(int userId);

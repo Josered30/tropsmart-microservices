@@ -15,14 +15,13 @@
 	<description>Cargo micro service</description>
 	<properties>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>2020.0.2</spring-cloud.version>
+		<spring-cloud.version>2020.0.0</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
@@ -53,8 +52,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		  </dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
@@ -66,14 +63,17 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
-
+		<dependency> 
+			<groupId>mysql</groupId>  
+			<artifactId>mysql-connector-java</artifactId>  
+			<version>8.0.20</version> 
+		</dependency>
 		<dependency> 
 			<groupId>javax.servlet</groupId>  
 			<artifactId>javax.servlet-api</artifactId>  
 			<version>4.0.1</version>  
 			<scope>provided</scope> 
-		</dependency>
-
+		</dependency>  
 
 		<dependency> 
 			<groupId>org.modelmapper.extensions</groupId>  
@@ -118,24 +118,25 @@
 			<groupId>io.cucumber</groupId>  
 			<artifactId>cucumber-spring</artifactId>  
 			<version>6.8.1</version> 
-		</dependency>  
-		<dependency> 
-			<groupId>mysql</groupId>  
-			<artifactId>mysql-connector-java</artifactId>  
-			<version>8.0.20</version> 
-		</dependency>  
-		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-feign -->
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-feign</artifactId>
-			<version>1.4.7.RELEASE</version>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bootstrap</artifactId>
-			<version>3.0.0-M5</version>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
+
 
 	</dependencies>
 	<dependencyManagement>
@@ -149,6 +150,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -165,5 +167,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

@@ -10,13 +10,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerClientHystrixFallbackFactory implements  CustomerClient {
     @Override
-    public ResponseEntity<CustomerBoundResponse> findCustomersById(int cargoId) {
-        CustomerBoundResponse customerBoundResponse = new CustomerBoundResponse();
-
+    public ResponseEntity<Customer> getCustomerById(int customerId) {
+        return null;
     }
 
     @Override
     public ResponseEntity<Customer> generateNewCustomer(int personId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Customer> getCustomersByPersonId(int personId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<CustomerBoundResponse> findCustomersById(int customerId) {
         return null;
     }
 }

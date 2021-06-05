@@ -1,5 +1,6 @@
 package com.softper.userservice.controllers;
 
+import com.softper.userservice.models.Person;
 import com.softper.userservice.resources.comunications.UserBoundResponse;
 import com.softper.userservice.servicesImp.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ public class PeopleController {
     @Autowired
     private PersonService personService;
 
-    
     @GetMapping
     public ResponseEntity<UserBoundResponse> findAllPersons() {
         UserBoundResponse result = personService.findAllPersons();
@@ -35,6 +35,6 @@ public class PeopleController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    
 
+    
 }
