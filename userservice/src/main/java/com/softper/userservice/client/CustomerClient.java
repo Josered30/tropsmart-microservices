@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public interface CustomerClient {
     
     @GetMapping("/{cargoId}")
-    public ResponseEntity<?> findCustomersById(@PathVariable(value = "cargoId") int cargoId);
+    public ResponseEntity<CustomerBoundResponse> findCustomersById(@PathVariable(value = "cargoId") int cargoId);
 
     @PostMapping("/")
     public ResponseEntity<Customer> generateNewCustomer(@PathVariable(value = "personId")int personId);
