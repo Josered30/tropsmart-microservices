@@ -15,6 +15,6 @@ public class SwaggerConfig
         return new OpenAPI()
                 .components(new Components())
                 .info(new Info()
-                        .title("Tropsmart API").description("Tropsmart API for dummies"));
+                        .title("Tropsmart User API").description("Tropsmart API for user bound"));
     }
 }

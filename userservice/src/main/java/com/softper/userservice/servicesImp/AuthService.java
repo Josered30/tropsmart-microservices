@@ -56,8 +56,8 @@ public class AuthService implements IAuthService {
     private IUserRepository userRepository;
 
     
-    @Autowired
-    private IBalanceRepository balanceRepository;
+    //@Autowired
+    //private IBalanceRepository balanceRepository;
     
     @Autowired
     private JwtProvider jwtProvider;
@@ -102,7 +102,6 @@ public class AuthService implements IAuthService {
         try
         {
             UserBoundResponse response = new UserBoundResponse();
-            logger.info("signUp");
             Optional<User> result = userRepository.findByEmail(signUp.getEmail());
             if(result.isPresent()) {
                 return new UserBoundResponse("registerComplete", "El correo : "+result.get().getEmail()+" ya se encuentra registrado",0);
@@ -116,7 +115,6 @@ public class AuthService implements IAuthService {
                 newPerson.setPersonType(signUp.getDiscriminator());
                 newPerson = personRepository.save(newPerson);
 
-
                 //Configuration newConfiguration = new Configuration();
                 //newConfiguration.setLanguage("Spanish");
                 //newConfiguration.setPaymentCurrency("Soles");
@@ -125,23 +123,24 @@ public class AuthService implements IAuthService {
                 ConfigBoundResponse configurationResponse = configurationClient.generateConfiguration().getBody();
 
 
-                Balance newBalance = new Balance();
-                newBalance.setSpentMoney(0);
-                newBalance.setAddedMoney(0);
+                //Balance newBalance = new Balance();
+                //newBalance.setSpentMoney(0);
+                //newBalance.setAddedMoney(0);
     
-                newBalance = balanceRepository.save(newBalance);
+                //newBalance = balanceRepository.save(newBalance);
     
     
                 User user = new User();
                 user.setEmail(signUp.getEmail());
                 user.setPerson(newPerson);
+                
     
                 //user.setPassword(encoder.encode((signUp.getPassword())));
                 user.setPassword(signUp.getPassword());
                 user.setCreatedAt(Calendar.getInstance().getTime());
                 //user.setConfiguration(newConfiguration);
                 user.setConfigurationId(configurationResponse.getConfigurationOutput().getId());
-                user.setBalance(newBalance);
+                //user.setBalance(newBalance);
     
                 user = userRepository.save(user);
     
@@ -184,7 +183,8 @@ public class AuthService implements IAuthService {
                     newPerson.setDriverId(newDriver.getId());
                     newPerson.setDriver(newDriver);
                 }
-    
+                newPerson = personRepository.save(newPerson);
+
                 //response.setResource(new AuthenticatedOutput(user.getId(),user.getEmail(),user.getPassword(),signUp.getFirstName(),signUp.getLastName(),signUp.getDiscriminator()));
                 //response.setStatus(1);
                 response = new UserBoundResponse("registerComplete","success",1);
@@ -209,8 +209,9 @@ public class AuthService implements IAuthService {
 
     @Override
     public UserBoundResponse login(String email, String password) {
-        /*
+        
         try {
+            UserBoundResponse response = new UserBoundResponse();
             User getUser = userRepository.findByEmail(email)
                     .orElseThrow(()->new ResourceNotFoundException("user","email",email));
             Person getPerson = getUser.getPerson();
@@ -226,10 +227,17 @@ public class AuthService implements IAuthService {
                     getPerson.getLastName(),
                     getPerson.getPersonType());
 
-            if(getPerson.getPersonType()==1)
-                authenticatedOutput.setRoleId(getPerson.getCustomer().getId());
-            if(getPerson.getPersonType()==2)
-                authenticatedOutput.setRoleId(getPerson.getDriver().getId());
+            if(getPerson.getPersonType()==1){
+                //authenticatedOutput.setRoleId(getPerson.getCustomer().getId());
+                Customer getCustomer = customerClient.getCustomerById(getPerson.getCustomerId()).getBody();
+                authenticatedOutput.setRoleId(getCustomer.getId());
+                
+            }
+            if(getPerson.getPersonType()==2){
+                //authenticatedOutput.setRoleId(getPerson.getDriver().getId());
+                Driver getDriver = driverClient.getDriverById(getPerson.getDriverId()).getBody();
+                authenticatedOutput.setRoleId(getDriver.getId());
+            }
 
             //String jwt = jwtProvider.generateJwtToken(authentication);
             //authenticatedOutput.setJwt(jwt);
@@ -255,22 +263,22 @@ public class AuthService implements IAuthService {
 
             String r = "Bearer "+token;
             authenticatedOutput.setToken(r);
-            return new AuthResponse(authenticatedOutput);
+            response = new UserBoundResponse("login","success",1);
+            response.setAuthenticatedOutput(authenticatedOutput);
+            return response;
         }
         catch (Exception e)
         {
-            return new AuthResponse("An error ocurred while getting the user: "+e.getMessage());
+            return new UserBoundResponse("login","An error ocurred "+e.getMessage(),-2);
         }
-        */
-        return null;
-
+        
     }
 
     @Override
     public UserBoundResponse loginFixed(String email, String password) {
-        /*
+        
         try {
-            AuthResponse response = new AuthResponse();
+            UserBoundResponse response = new UserBoundResponse();
             User getUser = userRepository.findByEmail(email)
                     .orElseThrow(()->new ResourceNotFoundException("user","email",email));
             if(getUser.getPassword().equals(password)){
@@ -278,10 +286,17 @@ public class AuthService implements IAuthService {
                 AuthenticatedOutput authenticatedOutput =new AuthenticatedOutput(
                         getUser.getEmail());
                 int roleId=0;
-                if(getPerson.getPersonType()==1)
-                    roleId = getPerson.getCustomer().getId();
-                if(getPerson.getPersonType()==2)
-                    roleId = getPerson.getDriver().getId();
+                if(getPerson.getPersonType()==1){
+                    //authenticatedOutput.setRoleId(getPerson.getCustomer().getId());
+                    Customer getCustomer = customerClient.getCustomerById(getPerson.getCustomerId()).getBody();
+                    roleId = getCustomer.getId();
+                    
+                }
+                if(getPerson.getPersonType()==2){
+                    //authenticatedOutput.setRoleId(getPerson.getDriver().getId());
+                    Driver getDriver = driverClient.getDriverById(getPerson.getDriverId()).getBody();
+                    roleId = getDriver.getId();
+                }
 
                 String secretKey = "mySecretKey";
                 List<GrantedAuthority> grantedAuthorities = AuthorityUtils
@@ -302,28 +317,22 @@ public class AuthService implements IAuthService {
 
                 String r = "Bearer "+token;
                 authenticatedOutput.setToken(r);
-                response.setResource(authenticatedOutput);
-                response.setMessage("Success");
-                response.setStatus(1);
+
+                response = new UserBoundResponse("loginFixed","success",1);
+                response.setAuthenticatedOutput(authenticatedOutput);
                 return response;
             }
             else {
-                response.setMessage("Correo o contraseña incorrectos");
-                response.setStatus(-2);
-                return response;
+                return new UserBoundResponse("loginFixed","Correo o contraseña incorrectos",0);
             }
             
         }
         catch (Exception e)
         {
-            AuthResponse response = new AuthResponse();
-            response.setMessage("Ocurrio un error en methodo "+Thread.currentThread().getStackTrace()+" : "+e.getMessage());
-            response.setStatus(-2);
-            return response;
-        }
-        */
-        return null;
+            return new UserBoundResponse("loginFixed","An error ocurred : "+e.getMessage(),-2);
 
+        }
+    
     }
 
     /*
@@ -348,6 +357,7 @@ public class AuthService implements IAuthService {
         newUserOutput.setEmail(getUser.getEmail());
         newUserOutput.setFirstName(getUser.getPerson().getFirstName());
         newUserOutput.setLastName(getUser.getPerson().getLastName());
+        newUserOutput.setId(getUser.getId());
         if(getUser.getPerson().getCustomer()!=null)
         {
             newUserOutput.setRole("1");

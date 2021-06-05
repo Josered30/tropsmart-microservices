@@ -1,6 +1,6 @@
 package com.softper.cargoservice.controllers;
 
-import com.softper.cargoservice.resources.comunications.RouteResponse;
+import com.softper.cargoservice.resources.comunications.CargoBoundResponse;
 import com.softper.cargoservice.servicesImp.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,9 @@ public class RoutesController {
     private RouteService routeService;
 
     @GetMapping
-    public ResponseEntity<RouteResponse> findAllRoutes()
+    public ResponseEntity<CargoBoundResponse> findAllRoutes()
     {
-        RouteResponse result = routeService.findAllRoutes();
+        CargoBoundResponse result = routeService.findAllRoutes();
 
         //if(!result.success)
         //    return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
@@ -27,9 +27,9 @@ public class RoutesController {
     }
 
     @GetMapping("/{routeId}")
-    public ResponseEntity<RouteResponse> findRouteById(@PathVariable(value="routeId")int routeId)
+    public ResponseEntity<CargoBoundResponse> findRouteById(@PathVariable(value="routeId")int routeId)
     {
-        RouteResponse result = routeService.findRouteById(routeId);
+        CargoBoundResponse result = routeService.findRouteById(routeId);
 
         //if(!result.success)
         //    return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);

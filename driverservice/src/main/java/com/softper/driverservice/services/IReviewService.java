@@ -9,5 +9,4 @@ public interface IReviewService extends ICrudService<Review> {
     DriverBoundResponse findReviewsByCustomerId(int customerId);
     DriverBoundResponse findReviewsByDriverId(int driverId);
     DriverBoundResponse findReviewById(int reviewId);
-    DriverBoundResponse addReviewByCargoId(int cargoId, ReviewInput reviewInput);
 }
