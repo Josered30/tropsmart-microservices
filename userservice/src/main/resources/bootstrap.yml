@@ -24,3 +24,7 @@ springdoc:
     path: /ts-api-docs
   swagger-ui:
     path: /index.html
+
+cucumber:
+  publish:
+    quiet: true   
