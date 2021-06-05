@@ -1,0 +1,21 @@
+server:
+  port: 8093
+
+spring:
+  application:
+    name: driver-service
+  cloud:
+    config:
+      uri: http://localhost:8081
+      username: root
+      password: s3cr3t
+  boot:
+    admin:
+      client:
+        url: http://localhost:8086
+  
+springdoc:
+  api-docs:
+    path: /ts-api-docs
+  swagger-ui:
+    path: /index.html
