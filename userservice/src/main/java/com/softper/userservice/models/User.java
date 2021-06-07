@@ -20,7 +20,7 @@ import lombok.Data;
 @Table(name="users")
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor
+@NoArgsConstructor 
 public class User implements Serializable {
 
     @Getter(AccessLevel.PRIVATE)
@@ -70,5 +70,9 @@ public class User implements Serializable {
     //private Configuration configuration;
     @Column(name = "configuration_id", nullable = false)
     private Integer configurationId;
+
+    @OneToOne
+    @JoinColumn(name = "balance_id")
+    private Balance balance;
 
 }

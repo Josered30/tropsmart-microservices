@@ -11,4 +11,5 @@ public interface ISubscriptionService extends ICrudService<Subscription> {
     UserBoundResponse cancelSubscription(int subscriptionId);
     UserBoundResponse enableSubscriptionById(int subscriptionId);
     UserBoundResponse deleteSubscriptionBySubscriptionId(int subscriptionId);
+    UserBoundResponse getSubscriptionModelById(int subscriptionId);
 }

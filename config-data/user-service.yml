@@ -36,3 +36,8 @@ management:
         include: "*"
     health:
       show-details: always
+
+
+cucumber:
+  publish:
+    quiet: true   

@@ -12,7 +12,6 @@ import com.softper.customerservice.models.Balance;
 import com.softper.customerservice.models.Customer;
 import com.softper.customerservice.models.Person;
 import com.softper.customerservice.models.User;
-import com.softper.customerservice.repositories.IBalanceRepository;
 //import com.softper.customerservice.repositories.IBalanceRepository;
 import com.softper.customerservice.repositories.ICustomerRepository;
 //import com.softper.customerservice.repositories.IPersonRepository;
@@ -35,9 +34,7 @@ public class CustomerService implements ICustomerService {
     @Autowired
     UserClient userClient;
 
-    @Autowired
-    IBalanceRepository balanceRepository;
-
+    
     //@Autowired
     //IPersonRepository personRepository;
 
@@ -72,12 +69,13 @@ public class CustomerService implements ICustomerService {
         try
         {
             Customer getCustomer = customerRepository.findById(customerId).get();
-            UserBoundResponse getResponse = userClient.findPersonById(getCustomer.getPersonId()).getBody();
+            UserBoundResponse getPerson = userClient.getPersonModelById(getCustomer.getPersonId()).getBody();
             //BalanceOutput getBalance = userClient.findBalanceByCustomerId(getCustomer.getId()).getBody().getBalanceOutput();
            
             CustomerBoundResponse response = new CustomerBoundResponse("findCustomerById", "success",1);
-            response.setCustomerOutput(toCustomerOutput(getCustomer, getResponse.getPersonOutput()));
-            response.getCustomerOutput().setCredits(getCustomer.getBalance().getAddedMoney());
+            //response.setCustomerOutput(toCustomerOutput(getCustomer, getResponse.getPersonOutput()));
+            //response.getCustomerOutput().setCredits(getCustomer.getBalance().getAddedMoney());
+            response.setCustomerOutput(toCustomerModelOutput(getCustomer));
             return response;
         }
         catch (Exception e)
@@ -88,14 +86,15 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerBoundResponse findAllCustomers() {
+        
         try
         {
             List<Customer> customerList = customerRepository.findAll();
             List<CustomerOutput> customerOutputList = new ArrayList<>();
             for (Customer getCustomer:customerList) {
-                UserBoundResponse getResponse = userClient.findPersonById(getCustomer.getPersonId()).getBody();
+                UserBoundResponse getResponse = userClient.getPersonModelById(getCustomer.getPersonId()).getBody();
                 CustomerOutput newCustomerOutput = toCustomerOutput(getCustomer, getResponse.getPersonOutput());
-                newCustomerOutput.setCredits(getCustomer.getBalance().getAddedMoney());
+                //newCustomerOutput.setCredits(getCustomer.getBalance().getAddedMoney());
                 customerOutputList.add(newCustomerOutput);
             }
             CustomerBoundResponse response = new CustomerBoundResponse("findAllCustomers", "success", 1);
@@ -105,20 +104,24 @@ public class CustomerService implements ICustomerService {
         catch (Exception e)
         {
             return new CustomerBoundResponse("findAllCustomers","An error ocurred : "+e.getMessage(),-2);
-        }
+        }    
     }
 
     @Override
     public CustomerBoundResponse rechargeCreditsByCustomerId(int customerId, double creditUnits) {
+        
         try
         {
-            Customer getCustomer = customerRepository.findById(customerId)
-                    .orElseThrow(()->new ResourceNotFoundException("customer","id",customerId));
+            Customer getCustomer = customerRepository.findById(customerId).get();
+            //UserBoundResponse getPerson = userClient.getPersonModelById((getCustomer.getPersonId())).getBody();
 
-            UserBoundResponse getResponse = userClient.findPersonById(getCustomer.getPersonId()).getBody();
+            UserBoundResponse getRecharged = userClient.rechargeMoneyByPersonId(getCustomer.getPersonId(), creditUnits).getBody();
+
+            
             CustomerBoundResponse response = new CustomerBoundResponse("rechargeCreditsByCustomerId", "success", 1);
-            response.setCustomerOutput(toCustomerOutput(getCustomer, getResponse.getPersonOutput()));
-            response.getCustomerOutput().setCredits(getCustomer.getBalance().getAddedMoney());
+            response.setCustomerOutput(toCustomerModelOutput(getCustomer));
+            //response.setCustomerOutput(toCustomerOutput(getCustomer, getPerson.getPersonOutput()));
+            //response.getCustomerOutput().setCredits(getCustomer.getBalance().getAddedMoney());
             return response;
         }
         catch (Exception e)
@@ -128,25 +131,24 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer generateNewCustomer(int personId){
+    public CustomerBoundResponse generateNewCustomer(int personId){
         try {
 
-            Balance newBalance = new Balance();
-            newBalance.setSpentMoney(0);
-            newBalance.setAddedMoney(0);
+            //Balance newBalance = new Balance();
+            //newBalance.setSpentMoney(0);
+            //newBalance.setAddedMoney(0);
     
-            newBalance = balanceRepository.save(newBalance);
+            //newBalance = balanceRepository.save(newBalance);
             Customer newCustomer = new Customer();
             newCustomer.setPersonId(personId);
             newCustomer.setCredits(0.0);
-            newCustomer.setBalance(newBalance);
+            //newCustomer.setBalance(newBalance);
 
             newCustomer = customerRepository.save(newCustomer);
 
-            //CustomerBoundResponse customerBoundResponse = new CustomerBoundResponse("generateNewCustomer",null,1);
-            //customerBoundResponse.setCustomerOutput(toCustomerOutput(newCustomer));
-            //return customerBoundResponse;
-            return newCustomer;
+            CustomerBoundResponse customerBoundResponse = new CustomerBoundResponse("generateNewCustomer","success",1);
+            customerBoundResponse.setCustomerOutput(toCustomerModelOutput(newCustomer));
+            return customerBoundResponse;
         }
         catch(Exception e)
         {
@@ -177,7 +179,26 @@ public class CustomerService implements ICustomerService {
         }
     }
 
+    @Override
+    public CustomerBoundResponse getCustomerModelById(int customerId){
+        try{
+            Optional<Customer> getCustomer = customerRepository.findById(customerId);
+            if(getCustomer.isPresent())
+            {
+                CustomerBoundResponse response = new CustomerBoundResponse("getCustomerModelById","success",1);
+                response.setCustomerOutput(toCustomerModelOutput(getCustomer.get()));
+                return response;
+            }else{
+                return new CustomerBoundResponse("getCustomerModelById","not found", 0);
+            }
+        }catch(Exception e)
+        {
+            return new CustomerBoundResponse("getCustomerModelById","An error ocurred : "+e.getMessage(),-2);
+        }
+    }
 
+
+    
     public CustomerOutput toCustomerOutput(Customer getCustomer, PersonOutput getPersonOutput) {
         CustomerOutput customerOutput = new CustomerOutput();
         customerOutput.setCredits(getCustomer.getCredits());
@@ -187,6 +208,14 @@ public class CustomerService implements ICustomerService {
         customerOutput.setLastName(getPersonOutput.getLastName());
 
         return customerOutput;
+    }
+    
+
+    public CustomerOutput toCustomerModelOutput(Customer getCustomer){
+        CustomerOutput newCustomerOutput = new CustomerOutput();
+        newCustomerOutput.setCredits(getCustomer.getCredits());
+        newCustomerOutput.setId(getCustomer.getId());
+        return newCustomerOutput;
     }
 
 

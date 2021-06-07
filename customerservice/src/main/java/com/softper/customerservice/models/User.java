@@ -58,15 +58,17 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Report> reportList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Benefit> claimedBenefits = new ArrayList<>();
+    //@OneToMany(mappedBy = "user")
+    //private List<Benefit> claimedBenefits = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;
 
-    @OneToOne
-    @JoinColumn(name = "configuration_id")
-    private Configuration configuration;
+    @Column(name = "configuration_id", nullable = false)
+    private Integer configurationId;
 
+    @OneToOne
+    @JoinColumn(name = "balance_id")
+    private Balance balance;
 }

@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class BlockedOutput {
+    private int id;
     private String user;
     private String blocked;
     public Date since;

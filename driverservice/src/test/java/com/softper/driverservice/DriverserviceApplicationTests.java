@@ -1,13 +1,17 @@
 package com.softper.driverservice;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+	plugin = {"pretty", "json:target/cucumber.json"},
+	features = "src/test/java/featureFiles"
+	//glue = {"src/test/java/stepDefinition"}
+)
 class DriverserviceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
 
 }

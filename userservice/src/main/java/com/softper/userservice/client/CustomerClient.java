@@ -16,15 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customerservice/customers")
 public interface CustomerClient {
     
-    @GetMapping("/by-id/{customerId}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "customerId") int customerId);
 
     @PostMapping("/{personId}")
-    public ResponseEntity<Customer> generateNewCustomer(@PathVariable(value = "personId")int personId);
+    public ResponseEntity<CustomerBoundResponse> generateNewCustomer(@PathVariable(value = "personId")int personId);
 
-    @GetMapping("/by-personId/{personId}")
-    public ResponseEntity<Customer> getCustomersByPersonId(@PathVariable(value = "personId") int personId);
-
-    @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerBoundResponse> findCustomersById(@PathVariable(value = "customerId") int customerId);
+    @GetMapping("/by-customerid/{customerId}")
+    public ResponseEntity<CustomerBoundResponse> getCustomerModelById(@PathVariable(value = "customerId") int customerId);
+    
 }

@@ -56,9 +56,7 @@ public class DriverService implements IDriverService {
 
     @Override
     public List<Driver> findAll() throws Exception {
-        //return driverRepository.findAll();
-        return null;
-
+        return driverRepository.findAll();
     }
 
 
@@ -105,7 +103,7 @@ public class DriverService implements IDriverService {
     }
 
     @Override
-    public Driver generateNewDriver(int personId) {
+    public DriverBoundResponse generateNewDriver(int personId) {
         try{
             Driver newDriver = new Driver();
             newDriver.setLicense("000-123");
@@ -120,15 +118,16 @@ public class DriverService implements IDriverService {
             qualificationRepository.save(newQualification);
             serviceRequestRepository.save(newServiceRequest);
 
-            //DriverBoundResponse response = new DriverBoundResponse("generateNewDriver","success",1);
-            //response.setDriverOutput(toDriverOutput(newDriver));
-            return newDriver;
+            DriverBoundResponse response = new DriverBoundResponse("generateNewDriver","success",1);
+            response.setDriverOutput(toDriverOutput(newDriver));
+            return response;
         }catch(Exception e){
-            return null;
-            //return new DriverBoundResponse("generateNewDriver","Hugo un error en el metodo : "+e.getMessage(),-2);
+            
+            return new DriverBoundResponse("generateNewDriver","An error ocurred : "+e.getMessage(),-2);
         }
     }
 
+    
     @Override
     public Driver findDriverByPersonId(int personId){
         try{
@@ -153,13 +152,34 @@ public class DriverService implements IDriverService {
             return null;
         }
     }
+    
+
+    @Override
+    public DriverBoundResponse getDriverModelById(int driverId)
+    {
+        try{
+            Optional<Driver> getDriver = driverRepository.findById(driverId);
+            if(getDriver.isPresent())
+            {
+                DriverBoundResponse response = new DriverBoundResponse("getDriverModelById","success",1);
+                response.setDriverOutput(toDriverOutput(getDriver.get()));
+                return response;
+
+            } else {
+                return new DriverBoundResponse("getDriverModelById","not found",0);
+            }
+                
+        } catch(Exception e) {
+            return new DriverBoundResponse("getDriverModelById","An error ocurred : "+e.getMessage(),-2);
+        }
+    }
 
 
     public DriverOutput toDriverOutput(Driver getDriver) {
         DriverOutput newDriverOutput = new DriverOutput();
         newDriverOutput.setRole(2);
-        newDriverOutput.setRoleId(getDriver.getId());
         newDriverOutput.setLicense(getDriver.getLicense());
+        newDriverOutput.setId(getDriver.getId());
         return newDriverOutput;
     }
 }

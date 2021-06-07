@@ -66,7 +66,16 @@ public class CustomersController {
 
     //Customer Feign Client======================================================================
 
+    
+    @PostMapping("/{personId}")
+    public ResponseEntity<CustomerBoundResponse> generateNewCustomer(@PathVariable(value = "personId")int personId)
+    {
+        CustomerBoundResponse result = customerService.generateNewCustomer(personId);
 
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /*
     @GetMapping("/by-id/{customerId}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "customerId") int customerId)
     {
@@ -76,18 +85,21 @@ public class CustomersController {
     }
 
 
-    @PostMapping("/{personId}")
-    public ResponseEntity<Customer> generateNewCustomer(@PathVariable(value = "personId")int personId)
-    {
-        Customer result = customerService.generateNewCustomer(personId);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 
     @GetMapping("/by-personId/{personId}")
     public ResponseEntity<Customer> getCustomersByPersonId(@PathVariable(value = "personId") int personId)
     {
         Customer result = customerService.findCustomerByPersonId(personId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    */
+
+
+    @GetMapping("/by-customerid/{customerId}")
+    public ResponseEntity<CustomerBoundResponse> getCustomerModelById(@PathVariable(value = "customerId") int customerId)
+    {
+        CustomerBoundResponse result = customerService.getCustomerModelById(customerId);
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

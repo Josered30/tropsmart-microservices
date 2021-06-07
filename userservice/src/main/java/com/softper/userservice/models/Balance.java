@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 
-//@Entity
+@Entity
 @Table(name = "balances")
 @EntityListeners(AuditingEntityListener.class)
 @Data
@@ -28,7 +28,7 @@ public class Balance implements Serializable {
     private double spentMoney;
 
     @OneToOne(mappedBy = "balance", cascade = CascadeType.ALL)
-    private Customer customer;
+    private User user;
 
 
     public void rechargeMoney(double money)
