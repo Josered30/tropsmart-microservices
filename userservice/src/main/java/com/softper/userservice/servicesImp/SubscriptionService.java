@@ -195,6 +195,26 @@ public class SubscriptionService implements ISubscriptionService {
     }
 
     @Override
+    public UserBoundResponse getSubscriptionModelById(int subscriptionId)
+    {
+        try{
+            Optional<Subscription> getSubscription = subscriptionRepository.findById(subscriptionId);
+            if(getSubscription.isPresent())
+            {
+                UserBoundResponse response = new UserBoundResponse("getSubscriptionModelById","success",1);
+                response.setSubscriptionOutput(toSubscriptionModelOutput(getSubscription.get()));
+                return response;
+            } else {
+                return new UserBoundResponse("UserBoundResponse","Not found",0);
+            }
+        }catch(Exception e)
+        {
+            return new UserBoundResponse("UserBoundResponse","An error ocurred : "+e.getMessage(),-2);
+
+        }
+    }
+
+    @Override
     public Subscription save(Subscription subscription) throws Exception {
         return subscriptionRepository.save(subscription);
     }
@@ -225,6 +245,12 @@ public class SubscriptionService implements ISubscriptionService {
         newSubscriptionOutput.setState(subscription.getSubscriptionState());
         newSubscriptionOutput.setPrice(subscription.getPlan().getTotalPrice());
         return newSubscriptionOutput;
+    }
 
+    public SubscriptionOutput toSubscriptionModelOutput(Subscription getSubscription) {
+        SubscriptionOutput newSubscriptionOutput = new SubscriptionOutput();
+        newSubscriptionOutput.setId(getSubscription.getId());
+        newSubscriptionOutput.setState(getSubscription.getSubscriptionState());
+        return newSubscriptionOutput;
     }
 }

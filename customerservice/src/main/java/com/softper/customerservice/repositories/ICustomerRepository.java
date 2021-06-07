@@ -15,6 +15,6 @@ public interface ICustomerRepository extends JpaRepository<Customer, Integer> {
     @Query("select c from Customer c where c.personId = (:pid)")
     Customer findCustomerByPersonId(@Param("pid")int personId);
 
-    @Query("select c from Customer c where c.balance.id = (:bid)")
-    Customer findCustomerByBalanceId(@Param("bid")int balanceId);
+    //@Query("select c from Customer c where c.balance.id = (:bid)")
+    //Customer findCustomerByBalanceId(@Param("bid")int balanceId);
 }

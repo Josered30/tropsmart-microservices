@@ -146,13 +146,20 @@ public class UsersController {
         UserBoundResponse result = userService.deleteFavoriteByUserIdAndFavoriteId(userId, userFavoritedId);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
-
     }
 
     @DeleteMapping("{userId}/blockeds/{userBlockedId}")
     public ResponseEntity<UserBoundResponse> deleteBlockedByUserIdAndBlockedId(@PathVariable(value = "userId")int userId, @PathVariable(value = "userBlockedId")int userBlockedId)
     {
         UserBoundResponse result = userService.deleteBlockByUserIdAndBlockId(userId, userBlockedId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/by-userid/{userId}")
+    public ResponseEntity<UserBoundResponse> getUserModelById(@PathVariable(value = "userId")int userId)
+    {
+        UserBoundResponse result = userService.getUserModelById(userId);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

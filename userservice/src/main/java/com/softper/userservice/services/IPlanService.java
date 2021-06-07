@@ -12,4 +12,5 @@ public interface IPlanService extends ICrudService<Plan>{
     UserBoundResponse registerPlan(PlanInput planInput);
     UserBoundResponse findPlanById(int planId);
     UserBoundResponse deletePlanById(int planId);
+    UserBoundResponse getPlanModelById(int planId);
 }

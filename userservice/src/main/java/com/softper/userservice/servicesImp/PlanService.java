@@ -195,6 +195,24 @@ public class PlanService implements IPlanService {
     }
 
     @Override
+    public UserBoundResponse getPlanModelById(int planId)
+    {
+        try{
+            Optional<Plan> getPlan = planRepository.findById(planId);
+            if(getPlan.isPresent()){
+                UserBoundResponse response = new UserBoundResponse("getPlanModelById", "success",1);
+                response.setPlanOutput(toPlanModelOutput(getPlan.get()));
+                return response;
+            } else {
+                return new UserBoundResponse("getPlanModelById","Not found",0);
+            }   
+        } catch(Exception e)
+        {
+            return new UserBoundResponse("getPlanModelById","An error ocurred : "+e.getMessage(),-2);
+        }
+    }
+
+    @Override
     public UserBoundResponse deletePlanById(int planId) {
         return null;
     }
@@ -217,5 +235,15 @@ public class PlanService implements IPlanService {
     @Override
     public List<Plan> findAll() throws Exception {
         return planRepository.findAll();
+    }
+
+    public PlanOutput toPlanModelOutput(Plan getPlan){
+        PlanOutput newPlanOutput = new PlanOutput();
+        newPlanOutput.setId(getPlan.getId());
+        newPlanOutput.setPlanName(getPlan.getName());
+        newPlanOutput.setDurationDays(getPlan.getDuration());
+        newPlanOutput.setPrice(getPlan.getTotalPrice());
+        newPlanOutput.setTax(getPlan.getTax());
+        return newPlanOutput;
     }
 }

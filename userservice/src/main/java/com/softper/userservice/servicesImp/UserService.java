@@ -25,7 +25,6 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService {
 
-    @Autowired
     private IUserRepository userRepository;
 
     @Autowired
@@ -39,6 +38,13 @@ public class UserService implements IUserService {
 
     @Autowired
     private DriverClient driverClient;
+
+    public UserService(IUserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
+    public UserService(){
+    }
 
     
     @Override
@@ -345,6 +351,24 @@ public class UserService implements IUserService {
         }
     }
 
+    @Override
+    public UserBoundResponse getUserModelById(int userId)
+    {
+        try{
+            Optional<User> getUser = userRepository.findById(userId);
+            if(getUser.isPresent())
+            {
+                UserBoundResponse response = new UserBoundResponse("getUserModelById","success",1);
+                response.setUserOutput(toUserModelOutput(getUser.get()));
+                return response;
+            }else {
+                return new UserBoundResponse("getUserModelById","Not found",0);
+            }
+        }catch(Exception e){
+            return new UserBoundResponse("getUserModelById","An error ocurred : "+e.getMessage(),-2);
+        }
+    }
+
 
     /*
     @Override
@@ -426,12 +450,12 @@ public class UserService implements IUserService {
 
         if(user.getPerson().getPersonType()==1){
             //authenticatedOutput.setRoleId(getPerson.getCustomer().getId());
-            Customer getCustomer = customerClient.getCustomerById(user.getPerson().getCustomerId()).getBody();
+            CustomerOutput getCustomer = customerClient.getCustomerModelById(user.getPerson().getCustomerId()).getBody().getCustomerOutput();
             newUserOutput.setRoleId(getCustomer.getId());
             
         }
         if(user.getPerson().getPersonType()==2){
-            Driver getDriver = driverClient.getDriverById(user.getPerson().getDriverId()).getBody();
+            DriverOutput getDriver = driverClient.getDriverModelById(user.getPerson().getDriverId()).getBody().getDriverOutput();
             newUserOutput.setRoleId(getDriver.getId());
         }
 
@@ -454,5 +478,15 @@ public class UserService implements IUserService {
         newBlockedOutput.setBlocked(block.getBlocked().getPerson().getFirstName()+" "+block.getBlocked().getPerson().getLastName());
         newBlockedOutput.setSince(block.getCreatedAt());
         return newBlockedOutput;
+    }
+
+    public UserOutput toUserModelOutput(User user)
+    {
+        UserOutput newUserOutput = new UserOutput();
+        newUserOutput.setId(user.getId());
+        newUserOutput.setEmail(user.getEmail());
+        newUserOutput.setPassword(user.getPassword());
+
+        return newUserOutput;
     }
 }

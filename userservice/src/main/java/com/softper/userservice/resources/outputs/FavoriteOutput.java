@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class FavoriteOutput {
+    private int id;
     private String user;
     private String favourited;
     private Date since;

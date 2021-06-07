@@ -33,7 +33,9 @@ public class Customer implements Serializable {
     @JoinColumn(name = "person_id")
     private Person person;
 
+    /*
     @OneToOne
     @JoinColumn(name = "balance_id")
     private Balance balance;
+    */
 }
