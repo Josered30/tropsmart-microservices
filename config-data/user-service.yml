@@ -28,8 +28,8 @@ spring:
 eureka:
   client:
     serviceUrl:
-      #defaultZone: https://ts-registryservices.azurewebsites.net/eureka/
-      defaultZone: http://localhost:8099/eureka/
+      defaultZone: https://ts-registryservices.azurewebsites.net/eureka/
+      #defaultZone: http://localhost:8099/eureka/
 
 management:
   endpoints:
