@@ -11,8 +11,8 @@ spring:
       enabled: true
       path: /console
   datasource:
-    url: jdbc:mysql://uyxb98vi2fstgekp:g8Ft6wsQeGlY0Xo29Nh2@bgstr41liltkhpog5jeb-mysql.services.clever-cloud.com:3306/bgstr41liltkhpog5jeb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-    #url: jdbc:mysql://localhost:3306/userservice?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    #url: jdbc:mysql://uyxb98vi2fstgekp:g8Ft6wsQeGlY0Xo29Nh2@bgstr41liltkhpog5jeb-mysql.services.clever-cloud.com:3306/bgstr41liltkhpog5jeb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    url: jdbc:mysql://localhost:3306/userservice?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
     username: root
     password: 
   jpa:
@@ -28,8 +28,8 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: https://ts-registryservices.azurewebsites.net/eureka/
-      #defaultZone: http://localhost:8099/eureka/
+      #defaultZone: https://ts-registryservices.azurewebsites.net/eureka/
+      defaultZone: http://localhost:8099/eureka/
 
 management:
   endpoints:
