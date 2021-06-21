@@ -2,12 +2,12 @@ server:
   port: 8099
 
 eureka:
-  #instance:
-  #  hostname: localhost
+  instance:
+    hostname: localhost
   client:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: https://ts-registryservices.azurewebsites.net/eureka/
-      #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      #defaultZone: https://ts-registryservices.azurewebsites.net/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
