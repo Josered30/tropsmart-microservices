@@ -1,9 +1,7 @@
 package com.softper.userservice.client.fallbacks;
 
 import com.softper.userservice.client.ConfigurationClient;
-import com.softper.userservice.models.Configuration;
-import com.softper.userservice.resources.comunications.ConfigBoundResponse;
-import com.softper.userservice.resources.outputs.ConfigurationOutput;
+import com.tropsmart.resources.comunications.ConfigBoundResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -13,25 +11,8 @@ public class ConfigurationClientHystrixFallbackFactory  implements Configuration
 
     @Override
     public ResponseEntity<ConfigBoundResponse> generateConfiguration() {
-        Configuration newConfiguration = new Configuration();
-        newConfiguration.setLanguage("None");
-        newConfiguration.setPaymentCurrency("None");
-
-        ConfigBoundResponse configurationBoundedResponse = new ConfigBoundResponse("NullGenerateConfiguration", null,1);
-
-        ConfigurationOutput newConfigurationOutput = new ConfigurationOutput();
-        //newConfigurationOutput.setId(newConfiguration.getId());
-        newConfigurationOutput.setPaymentCurrency(newConfiguration.getPaymentCurrency());
-        newConfigurationOutput.setLanguage(newConfiguration.getLanguage());
-
-        configurationBoundedResponse.setConfigurationOutput(newConfigurationOutput);
+        ConfigBoundResponse configurationBoundedResponse = new ConfigBoundResponse("generateConfiguration", "fallback response",-1);
         return ResponseEntity.ok(configurationBoundedResponse);
     }
-
-
-
-
-
-
 
 }

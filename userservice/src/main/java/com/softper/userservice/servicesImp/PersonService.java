@@ -3,13 +3,14 @@ package com.softper.userservice.servicesImp;
 import com.softper.userservice.client.CustomerClient;
 import com.softper.userservice.client.DriverClient;
 import com.softper.userservice.models.Person;
-import com.softper.userservice.models.User;
 import com.softper.userservice.repositories.IPersonRepository;
 import com.softper.userservice.repositories.IUserRepository;
-import com.softper.userservice.resources.comunications.UserBoundResponse;
-import com.softper.userservice.resources.outputs.PersonOutput;
 import com.softper.userservice.services.IPersonService;
+import com.tropsmart.resources.comunications.UserBoundResponse;
+import com.tropsmart.resources.outputs.PersonOutput;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,15 +22,20 @@ public class PersonService implements IPersonService {
 
     @Autowired
     IPersonRepository personRepository;
-    
+
     @Autowired
     IUserRepository userRepository;
-    
+
     @Autowired
+    @Qualifier("com.softper.userservice.client.CustomerClient")
     private CustomerClient customerClient;
 
     @Autowired
+    @Qualifier("com.softper.userservice.client.DriverClient")
     private DriverClient driverClient;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public Person save(Person person) {
@@ -54,68 +60,51 @@ public class PersonService implements IPersonService {
 
     @Override
     public UserBoundResponse findPeopleById(int id) {
-        
-        try
-        {
-            UserBoundResponse response;
-            Person getPerson = personRepository.findById(id).get();
-            response = new UserBoundResponse("findPeopleById","success",1);
-            response.setPersonOutput(toPersonOutput(getPerson));
+
+        try {
+            Optional<Person> person = personRepository.findById(id);
+
+            if (!person.isPresent()) {
+                return new UserBoundResponse("findPeopleById", "not found", 0);
+            }
+
+            UserBoundResponse response = new UserBoundResponse("findPeopleById", "success", 1);
+            response.setPersonOutput(modelMapper.map(person.get(), PersonOutput.class));
             return response;
-        }
-        catch (Exception e)
-        {
-            return new UserBoundResponse("findPeopleById","An error ocurred : "+e.getMessage(),-2);
+
+        } catch (Exception e) {
+            return new UserBoundResponse("findPeopleById", "An error ocurred : " + e.getMessage(), -2);
         }
     }
 
     @Override
     public UserBoundResponse findAllPersons() {
-        
-        try
-        {
+
+        try {
             UserBoundResponse response;
             List<Person> personList = personRepository.findAll();
             List<PersonOutput> personOutputList = new ArrayList<>();
-            for (Person p:personList) {
-                personOutputList.add(toPersonOutput(p));
+            for (Person p : personList) {
+                personOutputList.add(modelMapper.map(p, PersonOutput.class));
             }
 
-            response = new UserBoundResponse("findAllPersons","success",1);
+            response = new UserBoundResponse("findAllPersons", "success", 1);
             response.setPersonOutputs(personOutputList);
             return response;
+        } catch (Exception e) {
+            return new UserBoundResponse("findAllPersons", "An error ocurred : " + e.getMessage(), -2);
         }
-        catch (Exception e)
-        {
-            return new UserBoundResponse("findAllPersons", "An error ocurred : "+e.getMessage(),-2);
-        }
-        
+
     }
 
     @Override
-    public Person getPersonById(int personId)
-    {
-        try{
+    public Person getPersonById(int personId) {
+        try {
             return personRepository.findById(personId).get();
-        
-        }catch(Exception e)
-        {
+
+        } catch (Exception e) {
             return null;
         }
     }
 
-    public PersonOutput toPersonOutput(Person getPerson)
-    {
-        PersonOutput newPersonOutput = new PersonOutput();
-        newPersonOutput.setId(getPerson.getId());
-        newPersonOutput.setEmail(getPerson.getUser().getEmail());
-        newPersonOutput.setFirstName(getPerson.getFirstName());
-        newPersonOutput.setLastName(getPerson.getLastName());
-        if(getPerson.getPersonType()==1)
-            newPersonOutput.setUserType("Customer");
-        if(getPerson.getPersonType()==2)
-            newPersonOutput.setUserType("Driver");
-
-        return newPersonOutput;
-    } 
 }

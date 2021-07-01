@@ -1,7 +1,8 @@
 package com.softper.userservice.services;
 
 import com.softper.userservice.models.Subscription;
-import com.softper.userservice.resources.comunications.UserBoundResponse;
+import com.tropsmart.resources.comunications.UserBoundResponse;
+
 
 public interface ISubscriptionService extends ICrudService<Subscription> {
     UserBoundResponse findSubscriptionById(int subscriptionId);

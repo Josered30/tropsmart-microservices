@@ -1,10 +1,10 @@
 package com.softper.driverservice.controllers;
 
 import com.softper.driverservice.models.Driver;
-import com.softper.driverservice.resources.comunications.DriverBoundResponse;
 import com.softper.driverservice.servicesImp.ReviewService;
 import com.softper.driverservice.servicesImp.DriverService;
 
+import com.tropsmart.resources.comunications.DriverBoundResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class DriversController {
     private ReviewService reviewService;
 
     @GetMapping
-    public ResponseEntity<?> findAllDrivers()
+    public ResponseEntity<DriverBoundResponse> findAllDrivers()
     {
         DriverBoundResponse result = driverService.findAllDrivers();
 
@@ -33,7 +33,7 @@ public class DriversController {
     }
 
     @GetMapping("/{driverId}")
-    public ResponseEntity<?> findDriverById(@PathVariable(value = "driverId") int driverId)
+    public ResponseEntity<DriverBoundResponse> findDriverById(@PathVariable(value = "driverId") int driverId)
     {
         DriverBoundResponse result = driverService.findDriverById(driverId);
 
@@ -44,7 +44,7 @@ public class DriversController {
     }
 
     @GetMapping("/{driverId}/reviews")
-    public ResponseEntity<?> findReviewsByDriverId(@PathVariable(value = "driverId")int driverId)
+    public ResponseEntity<DriverBoundResponse> findReviewsByDriverId(@PathVariable(value = "driverId")int driverId)
     {
         DriverBoundResponse result = reviewService.findReviewsByDriverId(driverId);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -52,27 +52,19 @@ public class DriversController {
 
     //Driver Feign Client =======================================================
 
-    @GetMapping("/by-id/{driverId}")
-    public ResponseEntity<?> getDriverById(@PathVariable(value = "driverId") int driverId)
-    {
-        Driver result = driverService.getDriverById(driverId);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 
     @PostMapping("/{personId}")
-    public ResponseEntity<Driver> generateNewDriver(@PathVariable(value = "personId")int personId)
+    public ResponseEntity<DriverBoundResponse> generateNewDriver(@PathVariable(value = "personId")int personId)
     {
-        Driver result = driverService.generateNewDriver(personId);
+        DriverBoundResponse result = driverService.generateNewDriver(personId);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<DriverBoundResponse>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/by-personId/{personId}")
-    public ResponseEntity<Driver> getDriverByPersonId(@PathVariable(value = "personId") int personId)
+    @GetMapping("/by-person-id/{personId}")
+    public ResponseEntity<DriverBoundResponse> getDriverByPersonId(@PathVariable(value = "personId") int personId)
     {
-        Driver result = driverService.findDriverByPersonId(personId);
-        
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        DriverBoundResponse result = driverService.findDriverByPersonId(personId);
+        return new ResponseEntity<DriverBoundResponse>(result, HttpStatus.OK);
     }
 }

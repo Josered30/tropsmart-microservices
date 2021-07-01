@@ -1,8 +1,8 @@
 package com.softper.userservice.services;
 
-import com.softper.userservice.resources.comunications.UserBoundResponse;
-import com.softper.userservice.resources.inputs.RefreshInput;
+
 import com.softper.userservice.resources.inputs.SignUp;
+import com.tropsmart.resources.comunications.UserBoundResponse;
 
 public interface IAuthService {
     UserBoundResponse registerComplete(SignUp signUp);

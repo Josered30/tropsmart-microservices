@@ -3,17 +3,16 @@ package com.softper.driverservice.servicesImp;
 import com.softper.driverservice.repositories.IDriverRepository;
 import com.softper.driverservice.repositories.IQualificationRepository;
 import com.softper.driverservice.repositories.IServiceRequestRepository;
-import com.softper.driverservice.resources.comunications.DriverBoundResponse;
-import com.softper.driverservice.resources.outputs.DriverOutput;
 import com.softper.driverservice.services.IDriverService;
-import com.softper.driverservice.exception.ResourceNotFoundException;
 import com.softper.driverservice.models.Driver;
 import com.softper.driverservice.models.Location;
 import com.softper.driverservice.models.Qualification;
 import com.softper.driverservice.models.ServiceRequest;
-import com.softper.driverservice.models.User;
-//import com.softper.driverservice.repositories.IUserRepository;
 
+
+import com.tropsmart.resources.comunications.DriverBoundResponse;
+import com.tropsmart.resources.outputs.DriverOutput;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +26,8 @@ public class DriverService implements IDriverService {
     @Autowired
     IDriverRepository driverRepository;
 
-    
-    @Autowired 
+
+    @Autowired
     private IQualificationRepository qualificationRepository;
 
     @Autowired
@@ -38,6 +37,8 @@ public class DriverService implements IDriverService {
     //@Autowired
     //IUserRepository userRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public Driver save(Driver driver) throws Exception {
@@ -61,7 +62,6 @@ public class DriverService implements IDriverService {
 
     }
 
-
     @Override
     public DriverBoundResponse findNearDrivers(Location location) {
         return null;
@@ -69,97 +69,70 @@ public class DriverService implements IDriverService {
 
     @Override
     public DriverBoundResponse findDriverById(int driverId) {
-        try
-        {
+        try {
             Optional<Driver> getDriver = driverRepository.findById(driverId);
-            DriverBoundResponse response = new DriverBoundResponse("findDriverById","success",1);
-            if(getDriver.isPresent())
-                response.setDriverOutput(toDriverOutput(getDriver.get()));
-            
+            DriverBoundResponse response = new DriverBoundResponse("findDriverById", "success", 1);
+            getDriver.ifPresent(driver -> response.setDriverOutput(modelMapper.map(driver, DriverOutput.class)));
             return response;
-        }
-        catch (Exception e)
-        {
-            return new DriverBoundResponse("findDriverById","An error ocurred : "+e.getMessage(),-2);
+
+        } catch (Exception e) {
+            return new DriverBoundResponse("findDriverById", "An error ocurred : " + e.getMessage(), -2);
         }
     }
 
 
     @Override
     public DriverBoundResponse findAllDrivers() {
-        try
-        {
+        try {
             List<Driver> drivers = driverRepository.findAll();
             List<DriverOutput> driverOutputList = new ArrayList<>();
-            for (Driver getDriver:drivers) {
-                driverOutputList.add(toDriverOutput(getDriver));
+            for (Driver driver : drivers) {
+                driverOutputList.add(modelMapper.map(driver, DriverOutput.class));
             }
-            DriverBoundResponse response = new DriverBoundResponse("findAllDrivers","success",1);
+            DriverBoundResponse response = new DriverBoundResponse("findAllDrivers", "success", 1);
             response.setDriverOutputs(driverOutputList);
             return response;
-        }
-        catch (Exception e)
-        {
-            return new DriverBoundResponse("findAllDrivers","An error ocurred : "+e.getMessage(),-2);
+        } catch (Exception e) {
+            return new DriverBoundResponse("findAllDrivers", "An error ocurred : " + e.getMessage(), -2);
         }
     }
 
     @Override
-    public Driver generateNewDriver(int personId) {
-        try{
+    public DriverBoundResponse generateNewDriver(int personId) {
+        try {
             Driver newDriver = new Driver();
             newDriver.setLicense("000-123");
             newDriver.setPersonId(personId);
-            
+
             Qualification newQualification = new Qualification();
             newQualification.setDriver(newDriver);
 
             ServiceRequest newServiceRequest = new ServiceRequest();
             newServiceRequest.setDriver(newDriver);
-            
+
             qualificationRepository.save(newQualification);
             serviceRequestRepository.save(newServiceRequest);
 
-            //DriverBoundResponse response = new DriverBoundResponse("generateNewDriver","success",1);
-            //response.setDriverOutput(toDriverOutput(newDriver));
-            return newDriver;
-        }catch(Exception e){
-            return null;
-            //return new DriverBoundResponse("generateNewDriver","Hugo un error en el metodo : "+e.getMessage(),-2);
+            DriverBoundResponse response = new DriverBoundResponse("generateNewDriver", "success", 1);
+            response.setDriverOutput(modelMapper.map(newDriver, DriverOutput.class));
+
+            return response;
+        } catch (Exception e) {
+            return new DriverBoundResponse("generateNewDriver", "Hubo un error en el metodo : " + e.getMessage(), -2);
         }
     }
 
     @Override
-    public Driver findDriverByPersonId(int personId){
-        try{
-            return driverRepository.findDriverByPersonId(personId);
-        } catch(Exception e)
-        {
-            return null;
-        }
-    }
-
-    @Override
-    public Driver getDriverById(int driverId)
-    {   
-        try{
-            Optional<Driver> getDriver = driverRepository.findById(driverId);
-            if(getDriver.isPresent())
-                return getDriver.get();
-            else
-                return null;
-        } catch(Exception e)
-        {
+    public DriverBoundResponse findDriverByPersonId(int personId) {
+        try {
+            Optional<Driver> optionalDriver = driverRepository.findDriverByPersonId(personId);
+            DriverBoundResponse response = new DriverBoundResponse("findDriverByPersonId", "success", 1);
+            optionalDriver.ifPresent(driver -> response.setDriverOutput(modelMapper.map(driver, DriverOutput.class)));
+            return response;
+        } catch (Exception e) {
             return null;
         }
     }
 
 
-    public DriverOutput toDriverOutput(Driver getDriver) {
-        DriverOutput newDriverOutput = new DriverOutput();
-        newDriverOutput.setRole(2);
-        newDriverOutput.setRoleId(getDriver.getId());
-        newDriverOutput.setLicense(getDriver.getLicense());
-        return newDriverOutput;
-    }
 }

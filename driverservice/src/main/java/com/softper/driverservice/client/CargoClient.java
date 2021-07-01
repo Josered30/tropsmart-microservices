@@ -1,7 +1,7 @@
 package com.softper.driverservice.client;
 
-import com.softper.driverservice.resources.comunications.CargoBoundResponse;
 
+import com.tropsmart.resources.comunications.CargoBoundResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface CargoClient {
 
     @GetMapping("/{cargoId}")
-    public ResponseEntity<CargoBoundResponse> findCargoById(@PathVariable(value = "cargoId")int cargoId);
+    ResponseEntity<CargoBoundResponse> findCargoById(@PathVariable(value = "cargoId")int cargoId);
     
 }

@@ -3,11 +3,12 @@ package com.softper.userservice.servicesImp;
 import com.softper.userservice.models.Plan;
 import com.softper.userservice.models.Price;
 import com.softper.userservice.repositories.IPlanRepository;
-//import com.softper.userservice.repositories.IPriceRepository;
-import com.softper.userservice.resources.comunications.UserBoundResponse;
+
 import com.softper.userservice.resources.inputs.PlanInput;
-import com.softper.userservice.resources.outputs.PlanOutput;
+
 import com.softper.userservice.services.IPlanService;
+import com.tropsmart.resources.comunications.UserBoundResponse;
+import com.tropsmart.resources.outputs.PlanOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -18,10 +18,12 @@ import com.softper.customerservice.repositories.ICustomerRepository;
 //import com.softper.customerservice.repositories.IPersonRepository;
 //import com.softper.customerservice.repositories.IUserRepository;
 import com.softper.customerservice.services.ICustomerService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,13 +32,13 @@ import java.util.Optional;
 public class CustomerService implements ICustomerService {
 
     @Autowired
-    ICustomerRepository customerRepository;
+    private ICustomerRepository customerRepository;
 
     @Autowired
-    UserClient userClient;
+    private UserClient userClient;
 
     @Autowired
-    IBalanceRepository balanceRepository;
+    private IBalanceRepository balanceRepository;
 
     //@Autowired
     //IPersonRepository personRepository;
@@ -46,6 +48,10 @@ public class CustomerService implements ICustomerService {
 
     //@Autowired
     //IBalanceRepository balanceRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     @Override
     public Customer save(Customer customer) throws Exception {
@@ -71,13 +77,18 @@ public class CustomerService implements ICustomerService {
     public CustomerBoundResponse findCustomerById(int customerId) {
         try
         {
-            Customer getCustomer = customerRepository.findById(customerId).get();
-            UserBoundResponse getResponse = userClient.findPersonById(getCustomer.getPersonId()).getBody();
-            //BalanceOutput getBalance = userClient.findBalanceByCustomerId(getCustomer.getId()).getBody().getBalanceOutput();
-           
+            Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+
+            if(!optionalCustomer.isPresent()){
+                CustomerBoundResponse response = new CustomerBoundResponse("findCustomerById", "not found",0);
+                return response;
+            }
+
+            Customer  customer = optionalCustomer.get();
             CustomerBoundResponse response = new CustomerBoundResponse("findCustomerById", "success",1);
-            response.setCustomerOutput(toCustomerOutput(getCustomer, getResponse.getPersonOutput()));
-            response.getCustomerOutput().setCredits(getCustomer.getBalance().getAddedMoney());
+            CustomerOutput customerOutput = modelMapper.map(customer, CustomerOutput.class);
+
+            response.setCustomerOutput(customerOutput);
             return response;
         }
         catch (Exception e)
@@ -94,7 +105,7 @@ public class CustomerService implements ICustomerService {
             List<CustomerOutput> customerOutputList = new ArrayList<>();
             for (Customer getCustomer:customerList) {
                 UserBoundResponse getResponse = userClient.findPersonById(getCustomer.getPersonId()).getBody();
-                CustomerOutput newCustomerOutput = toCustomerOutput(getCustomer, getResponse.getPersonOutput());
+                CustomerOutput newCustomerOutput = modelMapper.map(getCustomer, CustomerOutput.class);
                 newCustomerOutput.setCredits(getCustomer.getBalance().getAddedMoney());
                 customerOutputList.add(newCustomerOutput);
             }
@@ -117,8 +128,10 @@ public class CustomerService implements ICustomerService {
 
             UserBoundResponse getResponse = userClient.findPersonById(getCustomer.getPersonId()).getBody();
             CustomerBoundResponse response = new CustomerBoundResponse("rechargeCreditsByCustomerId", "success", 1);
-            response.setCustomerOutput(toCustomerOutput(getCustomer, getResponse.getPersonOutput()));
-            response.getCustomerOutput().setCredits(getCustomer.getBalance().getAddedMoney());
+
+
+            CustomerOutput customerOutput = modelMapper.map(getCustomer, CustomerOutput.class);
+            response.setCustomerOutput(customerOutput);
             return response;
         }
         catch (Exception e)
@@ -128,7 +141,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer generateNewCustomer(int personId){
+    public CustomerBoundResponse generateNewCustomer(int personId){
         try {
 
             Balance newBalance = new Balance();
@@ -143,54 +156,40 @@ public class CustomerService implements ICustomerService {
 
             newCustomer = customerRepository.save(newCustomer);
 
-            //CustomerBoundResponse customerBoundResponse = new CustomerBoundResponse("generateNewCustomer",null,1);
-            //customerBoundResponse.setCustomerOutput(toCustomerOutput(newCustomer));
-            //return customerBoundResponse;
-            return newCustomer;
+            CustomerBoundResponse customerBoundResponse = new CustomerBoundResponse("generateNewCustomer","success",1);
+            CustomerOutput customerOutput = modelMapper.map(newCustomer, CustomerOutput.class);
+            customerBoundResponse.setCustomerOutput(customerOutput);
+            return customerBoundResponse;
         }
         catch(Exception e)
         {
-            //return new CustomerBoundResponse("generateNewCustomer","Ocurrio un error : "+e.getMessage(),-2);
-            return null;
+            return new CustomerBoundResponse("generateNewCustomer","Ocurrio un error : "+e.getMessage(),-2);
         }
     }
 
     @Override
-    public Customer findCustomerByPersonId(int personId)
+    public CustomerBoundResponse findCustomerByPersonId(int personId)
     {
-        try{
-            return customerRepository.findCustomerByPersonId(personId);
-        }catch(Exception e)
+        try
         {
-            return null;
+            Optional<Customer> optionalCustomer = customerRepository.findCustomerByPersonId(personId);
+
+            if(!optionalCustomer.isPresent()){
+                CustomerBoundResponse response = new CustomerBoundResponse("findCustomerByPersonId", "not found",0);
+                response.setCustomerOutput(null);
+                return response;
+            }
+
+            Customer  customer = optionalCustomer.get();
+            CustomerBoundResponse response = new CustomerBoundResponse("findCustomerByPersonId", "success",1);
+            CustomerOutput customerOutput = modelMapper.map(customer, CustomerOutput.class);
+
+            response.setCustomerOutput(customerOutput);
+            return response;
+        }
+        catch (Exception e)
+        {
+            return new CustomerBoundResponse("findCustomerByPersonId","An error ocurred : "+e.getMessage(),-2);
         }
     }
-
-    @Override
-    public Customer getCustomerById(int customerId)
-    {
-        try{
-            return customerRepository.findById(customerId).get();
-        }catch(Exception e)
-        {
-            return null;
-        }
-    }
-
-
-    public CustomerOutput toCustomerOutput(Customer getCustomer, PersonOutput getPersonOutput) {
-        CustomerOutput customerOutput = new CustomerOutput();
-        customerOutput.setCredits(getCustomer.getCredits());
-        customerOutput.setId(getCustomer.getId());
-        customerOutput.setEmail(getPersonOutput.getEmail());
-        customerOutput.setFirstName(getPersonOutput.getFirstName());
-        customerOutput.setLastName(getPersonOutput.getLastName());
-
-        return customerOutput;
-    }
-
-
-
-
-
 }

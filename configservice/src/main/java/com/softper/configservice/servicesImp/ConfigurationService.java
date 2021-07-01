@@ -237,7 +237,7 @@ public class ConfigurationService implements IConfigurationService {
 
         }catch(Exception e)
         {
-            return new ConfigBoundResponse("GenerateConfiguration","An error ocurred while getting a configuration "+e.getMessage(),2);
+            return new ConfigBoundResponse("GenerateConfiguration","An error ocurred while getting a configuration "+e.getMessage(),-2);
         }
     }
 

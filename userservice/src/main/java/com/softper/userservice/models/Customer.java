@@ -26,14 +26,13 @@ public class Customer implements Serializable {
     @Column(name = "credits")
     private double credits;
 
+    @Column(name = "person_id")
+    private Integer personId;
+
     @OneToMany(mappedBy = "customer")
-    private List<Cargo> cargoList = new ArrayList<>();
+    private List<Benefit> claimedBenefits = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
-
-    @OneToOne
-    @JoinColumn(name = "balance_id")
+    @JoinColumn(name = "balance")
     private Balance balance;
 }

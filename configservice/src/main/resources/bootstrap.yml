@@ -14,6 +14,7 @@ spring:
       client:
         url: http://localhost:8086
 
+
 springdoc:
   api-docs:
     path: /ts-api-docs

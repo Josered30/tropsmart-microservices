@@ -14,6 +14,7 @@ import com.softper.customerservice.resources.outputs.BalanceOutput;
 import com.softper.customerservice.resources.outputs.CustomerOutput;
 import com.softper.customerservice.resources.outputs.PersonOutput;
 import com.softper.customerservice.services.IBalanceService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,46 +37,49 @@ public class BalanceService implements IBalanceService {
     //@Autowired
     //private CustomerClient customerClient;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public CustomerBoundResponse findBalanceById(int balanceId) {
-        
-        try {
-            Balance getBalance = balanceRepository.findById(balanceId).get();
-            Customer getCustomer = customerRepository.findCustomerByBalanceId(balanceId);
-            PersonOutput getPerson = userClient.findUserByPersonId(getCustomer.getPersonId()).getBody().getPersonOutput();
 
-            //return new BalanceResponse(new BalanceOutput(getUser.getPerson().getFirstName()+" "+getUser.getPerson().getLastName(),getUser.getEmail(),getUser.getPerson().getCustomer().getCredits(),getBalance.getAddedMoney(),getBalance.getSpentMoney()));
-            CustomerBoundResponse response = new CustomerBoundResponse("findBalanceById","success",1);
-            response.setBalanceOutput(toBalanceOutput(getBalance, getPerson));
+        try {
+            Optional<Balance> getBalance = balanceRepository.findById(balanceId);
+            Optional<Customer> getCustomer = customerRepository.findCustomerByBalanceId(balanceId);
+
+            if (!getCustomer.isPresent() || !getBalance.isPresent()) {
+                return new CustomerBoundResponse("findBalanceById", "not found", 0);
+            }
+
+            CustomerBoundResponse response = new CustomerBoundResponse("findBalanceById", "success", 1);
+            BalanceOutput balanceOutput = modelMapper.map(getBalance, BalanceOutput.class);
+            CustomerOutput customerOutput = modelMapper.map(getCustomer, CustomerOutput.class);
+
+            response.setBalanceOutput(balanceOutput);
+            response.setCustomerOutput(customerOutput);
             return response;
+
+        } catch (Exception e) {
+            return new CustomerBoundResponse("findBalanceById", "An error ocurred : " + e.getMessage(), -2);
         }
-        catch(Exception e)
-        {
-            return new CustomerBoundResponse("findBalanceById","An error ocurred : "+e.getMessage(),-2);
-        }
-        
+
     }
 
     @Override
     public CustomerBoundResponse findAllBalances() {
-        try
-        {
+        try {
             List<Balance> balanceList = balanceRepository.findAll();
             List<BalanceOutput> balanceOutputList = new ArrayList<>();
-            for (Balance b:balanceList) {
-                Customer getCustomer = customerRepository.findCustomerByBalanceId(b.getId());
-                PersonOutput getPerson = userClient.findUserByPersonId(getCustomer.getPersonId()).getBody().getPersonOutput();
-                balanceOutputList.add(toBalanceOutput(b, getPerson));
+            for (Balance b : balanceList) {
+                Optional<Customer> getCustomer = customerRepository.findCustomerByBalanceId(b.getId());
+                getCustomer.ifPresent(customer -> balanceOutputList.add(modelMapper.map(customer.getBalance(), BalanceOutput.class)));
             }
-
-            CustomerBoundResponse response = new CustomerBoundResponse("findAllBalances","success",1);
+            CustomerBoundResponse response = new CustomerBoundResponse("findAllBalances", "success", 1);
             response.setBalanceOutputs(balanceOutputList);
             return response;
             //return new BalanceResponse(balanceOutputList);
-        }
-        catch (Exception e)
-        {
-            return new CustomerBoundResponse("findAllBalances","An error ocurred : "+e.getMessage(),-2);
+        } catch (Exception e) {
+            return new CustomerBoundResponse("findAllBalances", "An error ocurred : " + e.getMessage(), -2);
         }
     }
 
@@ -161,15 +165,4 @@ public class BalanceService implements IBalanceService {
         return balanceRepository.findAll();
     }
 
-    public BalanceOutput toBalanceOutput(Balance getBalance, PersonOutput getPerson)
-    {
-        BalanceOutput newBalanceOutput = new BalanceOutput();
-        newBalanceOutput.setAddedMoney(getBalance.getAddedMoney());
-        newBalanceOutput.setSpentMoney(getBalance.getSpentMoney());
-        newBalanceOutput.setCredits(getBalance.getAddedMoney());
-        newBalanceOutput.setEmail(getPerson.getEmail());
-        newBalanceOutput.setUser(getPerson.getFirstName()+" "+getPerson.getLastName());
-    
-        return newBalanceOutput;
-    }
 }

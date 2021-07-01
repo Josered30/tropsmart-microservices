@@ -2,6 +2,7 @@ package com.softper.customerservice.controllers;
 
 import com.softper.customerservice.models.Customer;
 import com.softper.customerservice.resources.comunications.CustomerBoundResponse;
+import com.softper.customerservice.services.ICustomerService;
 import com.softper.customerservice.servicesImp.CustomerService;
 //import com.softper.customerservice.resources.comunications.CargoResponse;
 //import com.softper.customerservice.servicesImp.CargoService;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class CustomersController {
 
     @Autowired
-    private CustomerService customerService;
+    private ICustomerService customerService;
 
     //@Autowired
     //private CargoService cargoService;
@@ -34,7 +35,7 @@ public class CustomersController {
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerBoundResponse> findCustomersById(@PathVariable(value = "customerId") int customerId)
+    public ResponseEntity<CustomerBoundResponse> findCustomerById(@PathVariable(value = "customerId") int customerId)
     {
         CustomerBoundResponse result = customerService.findCustomerById(customerId);
 
@@ -67,27 +68,18 @@ public class CustomersController {
     //Customer Feign Client======================================================================
 
 
-    @GetMapping("/by-id/{customerId}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "customerId") int customerId)
-    {
-        Customer result = customerService.getCustomerById(customerId);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-
     @PostMapping("/{personId}")
-    public ResponseEntity<Customer> generateNewCustomer(@PathVariable(value = "personId")int personId)
+    public ResponseEntity<CustomerBoundResponse> generateNewCustomer(@PathVariable(value = "personId")int personId)
     {
-        Customer result = customerService.generateNewCustomer(personId);
+        CustomerBoundResponse result = customerService.generateNewCustomer(personId);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/by-personId/{personId}")
-    public ResponseEntity<Customer> getCustomersByPersonId(@PathVariable(value = "personId") int personId)
+    @GetMapping("/by-person-id/{personId}")
+    public ResponseEntity<CustomerBoundResponse> findCustomerByPersonId(@PathVariable(value = "personId") int personId)
     {
-        Customer result = customerService.findCustomerByPersonId(personId);
+        CustomerBoundResponse result = customerService.findCustomerByPersonId(personId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

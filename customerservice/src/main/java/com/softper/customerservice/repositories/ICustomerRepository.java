@@ -8,13 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 public interface ICustomerRepository extends JpaRepository<Customer, Integer> {
     
     @Query("select c from Customer c where c.personId = (:pid)")
-    Customer findCustomerByPersonId(@Param("pid")int personId);
+    Optional<Customer> findCustomerByPersonId(@Param("pid")int personId);
 
     @Query("select c from Customer c where c.balance.id = (:bid)")
-    Customer findCustomerByBalanceId(@Param("bid")int balanceId);
+    Optional<Customer> findCustomerByBalanceId(@Param("bid")int balanceId);
 }

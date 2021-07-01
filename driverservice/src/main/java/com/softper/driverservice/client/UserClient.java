@@ -1,7 +1,7 @@
 package com.softper.driverservice.client;
 
-import com.softper.driverservice.resources.comunications.UserBoundResponse;
 
+import com.tropsmart.resources.comunications.UserBoundResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface UserClient {
 
     @GetMapping("/people/{personId}")
-    public ResponseEntity<UserBoundResponse> findPersonById(@PathVariable(value = "personId")int personId);
+    ResponseEntity<UserBoundResponse> findPersonById(@PathVariable(value = "personId")int personId);
     
 }

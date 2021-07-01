@@ -1,8 +1,8 @@
 package com.softper.userservice.services;
 
 import com.softper.userservice.models.Plan;
-import com.softper.userservice.resources.comunications.UserBoundResponse;
 import com.softper.userservice.resources.inputs.PlanInput;
+import com.tropsmart.resources.comunications.UserBoundResponse;
 
 public interface IPlanService extends ICrudService<Plan>{
     UserBoundResponse findPlansByPrice(double priceValue);

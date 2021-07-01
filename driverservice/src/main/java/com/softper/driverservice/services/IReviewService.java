@@ -1,8 +1,8 @@
 package com.softper.driverservice.services;
 
-import com.softper.driverservice.resources.comunications.DriverBoundResponse;
 import com.softper.driverservice.models.Review;
 import com.softper.driverservice.resources.inputs.ReviewInput;
+import com.tropsmart.resources.comunications.DriverBoundResponse;
 
 public interface IReviewService extends ICrudService<Review> {
     DriverBoundResponse findAllReviews();

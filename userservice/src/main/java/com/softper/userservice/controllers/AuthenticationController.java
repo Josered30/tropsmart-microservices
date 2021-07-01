@@ -1,23 +1,21 @@
 package com.softper.userservice.controllers;
 
-import com.softper.userservice.resources.comunications.UserBoundResponse;
-import com.softper.userservice.resources.inputs.RefreshInput;
+
 import com.softper.userservice.resources.inputs.SignIn;
 import com.softper.userservice.resources.inputs.SignUp;
 import com.softper.userservice.servicesImp.AuthService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
+import com.tropsmart.resources.comunications.UserBoundResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.stream.Collectors;
+
 
 @CrossOrigin
 @RestController

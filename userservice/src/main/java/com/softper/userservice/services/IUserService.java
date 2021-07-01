@@ -3,10 +3,11 @@ package com.softper.userservice.services;
 //import com.softper.userservice.resources.comunications.CustomerResponse;
 //import com.softper.userservice.resources.comunications.DriverResponse;
 import com.softper.userservice.models.User;
-import com.softper.userservice.resources.comunications.*;
+import com.tropsmart.resources.comunications.UserBoundResponse;
+
 
 public interface IUserService extends ICrudService<User>{
-    UserBoundResponse setFavourited(int userId, int favoriteId);
+    UserBoundResponse setFavourite(int userId, int favoriteId);
     UserBoundResponse setBlocked(int userId, int blockedId);
     UserBoundResponse findAllUsers();
     UserBoundResponse findAllUsersByType(int userType);

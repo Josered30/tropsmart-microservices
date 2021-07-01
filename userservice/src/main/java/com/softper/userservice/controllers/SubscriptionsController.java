@@ -1,7 +1,8 @@
 package com.softper.userservice.controllers;
 
-import com.softper.userservice.resources.comunications.UserBoundResponse;
+
 import com.softper.userservice.servicesImp.SubscriptionService;
+import com.tropsmart.resources.comunications.UserBoundResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
