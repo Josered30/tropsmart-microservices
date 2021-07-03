@@ -39,7 +39,13 @@ management:
     health:
       show-details: always
 
-
 cucumber:
   publish:
     quiet: true   
+
+springdoc:
+  api-docs:
+    path: /ts-api-docs
+  swagger-ui:
+    path: /index.html
+   

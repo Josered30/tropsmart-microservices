@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SwaggerConfig
-{
+public class SwaggerConfig {
 
-    @Bean(name= "bloggingOpenApi")
-    public OpenAPI tsOpenApi(){
+    @Bean
+    public OpenAPI tsOpenApi() {
         return new OpenAPI()
                 .components(new Components())
                 .info(new Info()
