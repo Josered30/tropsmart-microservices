@@ -18,6 +18,8 @@ import com.softper.userservice.repositories.*;
 import com.softper.userservice.resources.inputs.RefreshInput;
 import com.softper.userservice.resources.inputs.SignUp;
 import com.softper.userservice.resources.outputs.AuthenticatedOutput;
+import com.softper.userservice.resources.outputs.CustomerOutput;
+import com.softper.userservice.resources.outputs.DriverOutput;
 import com.softper.userservice.resources.outputs.UserOutput;
 import com.softper.userservice.security.JwtProvider;
 import com.softper.userservice.services.IAuthService;
@@ -56,8 +58,8 @@ public class AuthService implements IAuthService {
     private IUserRepository userRepository;
 
     
-    //@Autowired
-    //private IBalanceRepository balanceRepository;
+    @Autowired
+    private IBalanceRepository balanceRepository;
     
     @Autowired
     private JwtProvider jwtProvider;
@@ -122,12 +124,11 @@ public class AuthService implements IAuthService {
                 //newConfiguration = configurationRepository.save(newConfiguration);
                 ConfigBoundResponse configurationResponse = configurationClient.generateConfiguration().getBody();
 
-
-                //Balance newBalance = new Balance();
-                //newBalance.setSpentMoney(0);
-                //newBalance.setAddedMoney(0);
+                Balance newBalance = new Balance();
+                newBalance.setSpentMoney(0);
+                newBalance.setAddedMoney(0);
     
-                //newBalance = balanceRepository.save(newBalance);
+                newBalance = balanceRepository.save(newBalance);
     
     
                 User user = new User();
@@ -140,7 +141,7 @@ public class AuthService implements IAuthService {
                 user.setCreatedAt(Calendar.getInstance().getTime());
                 //user.setConfiguration(newConfiguration);
                 user.setConfigurationId(configurationResponse.getConfigurationOutput().getId());
-                //user.setBalance(newBalance);
+                user.setBalance(newBalance);
     
                 user = userRepository.save(user);
     
@@ -152,9 +153,9 @@ public class AuthService implements IAuthService {
 
                     //newPerson.setCustomer(newCustomer);
                     //customerRepository.save(newCustomer);
-                    Customer newCustomer = customerClient.generateNewCustomer(newPerson.getId()).getBody();
+                    CustomerOutput newCustomer = customerClient.generateNewCustomer(newPerson.getId()).getBody().getCustomerOutput();
                     newPerson.setCustomerId(newCustomer.getId());
-                    newPerson.setCustomer(newCustomer);
+                    //newPerson.setCustomer(newCustomer);
                 }
                 else
                 {
@@ -179,9 +180,11 @@ public class AuthService implements IAuthService {
                     
                     //driverRepository.save(newDriver);
 
-                    Driver newDriver = driverClient.generateNewDriver(newPerson.getId()).getBody();
+                    //DriverOutput newDriver = driverClient.generateNewDriver(newPerson.getId()).getBody().getDriverOutput();
+                    DriverBoundResponse resDriver = driverClient.generateNewDriver(newPerson.getId()).getBody();
+                    DriverOutput newDriver = resDriver.getDriverOutput();
                     newPerson.setDriverId(newDriver.getId());
-                    newPerson.setDriver(newDriver);
+                    //newPerson.setDriver(newDriver);
                 }
                 newPerson = personRepository.save(newPerson);
 
@@ -229,13 +232,13 @@ public class AuthService implements IAuthService {
 
             if(getPerson.getPersonType()==1){
                 //authenticatedOutput.setRoleId(getPerson.getCustomer().getId());
-                Customer getCustomer = customerClient.getCustomerById(getPerson.getCustomerId()).getBody();
+                CustomerOutput getCustomer = customerClient.getCustomerModelById(getPerson.getCustomerId()).getBody().getCustomerOutput();
                 authenticatedOutput.setRoleId(getCustomer.getId());
                 
             }
             if(getPerson.getPersonType()==2){
                 //authenticatedOutput.setRoleId(getPerson.getDriver().getId());
-                Driver getDriver = driverClient.getDriverById(getPerson.getDriverId()).getBody();
+                DriverOutput getDriver = driverClient.getDriverModelById(getPerson.getDriverId()).getBody().getDriverOutput();
                 authenticatedOutput.setRoleId(getDriver.getId());
             }
 
@@ -288,13 +291,13 @@ public class AuthService implements IAuthService {
                 int roleId=0;
                 if(getPerson.getPersonType()==1){
                     //authenticatedOutput.setRoleId(getPerson.getCustomer().getId());
-                    Customer getCustomer = customerClient.getCustomerById(getPerson.getCustomerId()).getBody();
+                    CustomerOutput getCustomer = customerClient.getCustomerModelById(getPerson.getCustomerId()).getBody().getCustomerOutput();
                     roleId = getCustomer.getId();
                     
                 }
                 if(getPerson.getPersonType()==2){
                     //authenticatedOutput.setRoleId(getPerson.getDriver().getId());
-                    Driver getDriver = driverClient.getDriverById(getPerson.getDriverId()).getBody();
+                    DriverOutput getDriver = driverClient.getDriverModelById(getPerson.getDriverId()).getBody().getDriverOutput();
                     roleId = getDriver.getId();
                 }
 
@@ -358,13 +361,13 @@ public class AuthService implements IAuthService {
         newUserOutput.setFirstName(getUser.getPerson().getFirstName());
         newUserOutput.setLastName(getUser.getPerson().getLastName());
         newUserOutput.setId(getUser.getId());
-        if(getUser.getPerson().getCustomer()!=null)
+        if(getUser.getPerson().getPersonType() == 1)
         {
             newUserOutput.setRole("1");
-            newUserOutput.setRoleId(getUser.getPerson().getCustomer().getId());
+            newUserOutput.setRoleId(getUser.getPerson().getCustomerId());
         } else {
             newUserOutput.setRole("2");
-            newUserOutput.setRoleId(getUser.getPerson().getDriver().getId());
+            newUserOutput.setRoleId(getUser.getPerson().getDriverId());
         }
 
         return newUserOutput;

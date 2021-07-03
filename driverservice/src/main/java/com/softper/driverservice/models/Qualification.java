@@ -25,7 +25,7 @@ public class Qualification implements Serializable {
     @Column(name = "rate")
     private double rate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "driver_id")
     private Driver driver;
 

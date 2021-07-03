@@ -75,4 +75,11 @@ public class SubscriptionsController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/by-subscriptionid/{subscriptionId}")
+    public ResponseEntity<UserBoundResponse> getSubscriptionModelById(@PathVariable(value = "subscriptionId")int subscriptionId)
+    {
+        UserBoundResponse result = subscriptionService.getSubscriptionModelById(subscriptionId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

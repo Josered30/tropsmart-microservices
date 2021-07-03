@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PaymentMethodOutput {
+    private int id;
     private String bankName;
     private int swiftCode;
     private long accountNumber;

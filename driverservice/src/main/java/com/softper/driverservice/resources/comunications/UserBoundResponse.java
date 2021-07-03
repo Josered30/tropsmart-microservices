@@ -23,6 +23,10 @@ public class UserBoundResponse extends BaseResponse {
 
     List<AuthenticatedOutput> authenticatedOutputList;
 
+    BalanceOutput balanceOutput;
+
+    List<BalanceOutput> balanceOutputs;
+
     BlockedOutput blockedOutput;
 
     List<BlockedOutput> blockedOutputs;

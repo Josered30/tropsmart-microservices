@@ -16,8 +16,4 @@ public class CustomerBoundResponse extends BaseResponse{
     CustomerOutput customerOutput;
 
     List<CustomerOutput> customerOutputs;
-
-    BalanceOutput balanceOutput;
-
-    List<BalanceOutput> balanceOutputs;
 }

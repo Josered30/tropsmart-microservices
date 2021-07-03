@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class VehicleOutput {
+    private int id;
     private String driver;
     private String model;
     private String brand;

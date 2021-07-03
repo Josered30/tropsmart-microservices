@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PriceOutput {
+    private int id;
     private double totalPrice;
     private double tax;
     private String priceFrom;

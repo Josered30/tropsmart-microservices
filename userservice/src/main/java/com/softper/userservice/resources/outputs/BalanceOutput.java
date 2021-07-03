@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BalanceOutput {
+    private int id;
     private String user;
     private String email;
     private double credits;
