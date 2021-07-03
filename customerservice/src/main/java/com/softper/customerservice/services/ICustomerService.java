@@ -9,7 +9,9 @@ public interface ICustomerService extends ICrudService<Customer>{
     CustomerBoundResponse findCustomerById(int customerId);
     CustomerBoundResponse findAllCustomers();
     CustomerBoundResponse rechargeCreditsByCustomerId(int customerId, double creditUnits);
-    Customer generateNewCustomer(int personId);
+    CustomerBoundResponse generateNewCustomer(int personId);
     Customer findCustomerByPersonId(int personId);
     Customer getCustomerById(int customerId);
+    CustomerBoundResponse getCustomerModelById(int customerId);
+
 }

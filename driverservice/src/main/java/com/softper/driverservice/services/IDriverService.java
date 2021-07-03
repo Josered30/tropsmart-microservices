@@ -9,7 +9,8 @@ public interface IDriverService extends ICrudService<Driver> {
     DriverBoundResponse findNearDrivers(Location location);
     DriverBoundResponse findDriverById(int driverId);
     DriverBoundResponse findAllDrivers();
-    Driver generateNewDriver(int personId);
+    DriverBoundResponse generateNewDriver(int personId);
     Driver findDriverByPersonId(int personId);
     Driver getDriverById(int driverId);
+    DriverBoundResponse getDriverModelById(int driverId);
 }

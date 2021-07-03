@@ -51,7 +51,23 @@ public class DriversController {
     }
 
     //Driver Feign Client =======================================================
+    @PostMapping("/{personId}")
+    public ResponseEntity<DriverBoundResponse> generateNewDriver(@PathVariable(value = "personId")int personId)
+    {
+        DriverBoundResponse result = driverService.generateNewDriver(personId);
 
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    
+    
+    @GetMapping("/by-driverid/{driverId}")
+    public ResponseEntity<DriverBoundResponse> getDriverModelById(@PathVariable(value = "driverId") int driverId)
+    {
+        DriverBoundResponse result = driverService.getDriverModelById(driverId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    /*
     @GetMapping("/by-id/{driverId}")
     public ResponseEntity<?> getDriverById(@PathVariable(value = "driverId") int driverId)
     {
@@ -60,13 +76,6 @@ public class DriversController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/{personId}")
-    public ResponseEntity<Driver> generateNewDriver(@PathVariable(value = "personId")int personId)
-    {
-        Driver result = driverService.generateNewDriver(personId);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 
     @GetMapping("/by-personId/{personId}")
     public ResponseEntity<Driver> getDriverByPersonId(@PathVariable(value = "personId") int personId)
@@ -75,4 +84,8 @@ public class DriversController {
         
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+   
+    */
+
 }

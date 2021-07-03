@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface UserClient {
 
     //User
-    @GetMapping("/users/by-personid/{personId}")
-    public ResponseEntity<UserBoundResponse> findUserByPersonId(@PathVariable(value = "personId")int personId);
-
+    @GetMapping("/by-userid/{userId}")
+    public ResponseEntity<UserBoundResponse> getUserModelById(@PathVariable(value = "userId")int userId);
+    
     //Balance
     
-    @GetMapping("/balances/by-userid/{userId}")
-    public ResponseEntity<UserBoundResponse> findBalanceByUserId(@PathVariable(value = "userId")int userId);
-
-    @GetMapping("/balances/by-userid/{userId}/recharge/{money}")
-    public ResponseEntity<UserBoundResponse> rechargeMoneyByUserId(@PathVariable(value = "userId")int userId, @PathVariable(value = "money")double money);
+    @GetMapping("/by-balanceid/{balanceId}")
+    public ResponseEntity<UserBoundResponse> getBalanceModelById(@PathVariable(value = "balanceId")int balanceId);
     
-    @GetMapping("/balances/by-customerid/{customerId}")
-    public ResponseEntity<UserBoundResponse> findBalanceByCustomerId(@PathVariable(value = "customerId")int customerId);
+    @GetMapping("/balances/by-personid/{personId}/recharge/{credits}")
+    public ResponseEntity<UserBoundResponse> rechargeMoneyByPersonId(@PathVariable(value = "personId")int personId, @PathVariable(value = "credits")double credits);
+    
+    //@GetMapping("/balances/by-customerid/{customerId}")
+    //public ResponseEntity<UserBoundResponse> findBalanceByCustomerId(@PathVariable(value = "customerId")int customerId);
     
 
     //People
@@ -34,8 +34,7 @@ public interface UserClient {
     @GetMapping("/people")
     public ResponseEntity<UserBoundResponse> findAllPersons();
     
-    @GetMapping("/people/{personId}")
-    public ResponseEntity<UserBoundResponse> findPersonById(@PathVariable(value = "personId")int personId);
-
-  
+    @GetMapping("/by-personid/{personId}")
+    public ResponseEntity<UserBoundResponse> getPersonModelById(@PathVariable(value = "personId")int personId);
+    
 }

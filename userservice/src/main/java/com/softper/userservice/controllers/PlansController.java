@@ -84,4 +84,12 @@ public class PlansController {
         return new ResponseEntity<>(result,HttpStatus.OK);
 
     }
+
+    @GetMapping("/by-planid/{planId}")
+    public ResponseEntity<UserBoundResponse> getPlanModelById(@PathVariable(value = "planId") int planId)
+    {
+        UserBoundResponse result = planService.getPlanModelById(planId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

@@ -36,5 +36,13 @@ public class PeopleController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/by-personid/{personId}")
+    public ResponseEntity<UserBoundResponse> getPersonModelById(@PathVariable(value = "personId")int personId)
+    {
+        UserBoundResponse result = personService.getPersonModelById(personId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     
 }

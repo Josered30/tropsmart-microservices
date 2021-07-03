@@ -3,6 +3,7 @@ package com.softper.customerservice.resources.comunications;
 import java.util.List;
 
 import com.softper.customerservice.resources.outputs.AuthenticatedOutput;
+import com.softper.customerservice.resources.outputs.BalanceOutput;
 import com.softper.customerservice.resources.outputs.BlockedOutput;
 import com.softper.customerservice.resources.outputs.FavoriteOutput;
 import com.softper.customerservice.resources.outputs.PersonOutput;
@@ -22,6 +23,10 @@ public class UserBoundResponse extends BaseResponse {
 
     List<AuthenticatedOutput> authenticatedOutputList;
 
+    BalanceOutput balanceOutput;
+
+    List<BalanceOutput> balanceOutputs;
+    
     BlockedOutput blockedOutput;
 
     List<BlockedOutput> blockedOutputs;

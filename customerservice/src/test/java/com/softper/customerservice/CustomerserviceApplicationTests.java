@@ -1,13 +1,16 @@
 package com.softper.customerservice;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
 
-@SpringBootTest
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {"pretty", "json:target/cucumber.json"},
+        features = "src/test/java/featureFiles"
+        //glue = {"src/test/java/stepDefinitions"}
+)
 class CustomerserviceApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
 
 }

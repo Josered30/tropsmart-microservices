@@ -104,6 +104,24 @@ public class PersonService implements IPersonService {
         }
     }
 
+    @Override
+    public UserBoundResponse getPersonModelById(int personId)
+    {
+        try{
+            Optional<Person> getPerson = personRepository.findById(personId);
+            if(getPerson.isPresent())
+            {
+                UserBoundResponse response = new UserBoundResponse("getPersonModelById","success",1);
+                response.setPersonOutput(toPersonModelOutput(getPerson.get()));
+                return response;
+            }else {
+                return new UserBoundResponse("getPersonModelById","Not found",0);
+            }
+        }catch(Exception e){
+            return new UserBoundResponse("getPersonModelById","An error ocurred : "+e.getMessage(),-2);
+        }
+    }
+
     public PersonOutput toPersonOutput(Person getPerson)
     {
         PersonOutput newPersonOutput = new PersonOutput();
@@ -118,4 +136,17 @@ public class PersonService implements IPersonService {
 
         return newPersonOutput;
     } 
+
+    public PersonOutput toPersonModelOutput(Person getPerson)
+    {
+        PersonOutput newPersonOutput = new PersonOutput();
+        newPersonOutput.setId(getPerson.getId());
+        newPersonOutput.setFirstName(getPerson.getFirstName());
+        newPersonOutput.setLastName(getPerson.getLastName());
+        if(getPerson.getPersonType()==1)
+            newPersonOutput.setUserType("Customer");
+        if(getPerson.getPersonType()==2)
+            newPersonOutput.setUserType("Driver");
+        return newPersonOutput;
+    }
 }

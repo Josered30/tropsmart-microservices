@@ -39,7 +39,4 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customer")
     private List<Benefit> claimedBenefits = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "balance")
-    private Balance balance;
 }
