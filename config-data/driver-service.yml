@@ -45,3 +45,9 @@ management:
     web:
       exposure:
         include: "*"
+        
+springdoc:
+  api-docs:
+    path: /ts-api-docs
+  swagger-ui:
+    path: /index.html

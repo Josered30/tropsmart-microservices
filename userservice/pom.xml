@@ -142,12 +142,6 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
             <version>2.4.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.tropsmart</groupId>
-            <artifactId>tropsmart-microservices-contracts</artifactId>
-            <version>1.1</version>
-        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
